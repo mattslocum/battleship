@@ -1,0 +1,35 @@
+<div class="well sidebar-nav">
+    <button class="btn btn-primary" [disabled]="!selectedShip" ng-show="oGame.state == 'position'" (click)="rotateShip()">
+        <span class="glyphicon glyphicon-repeat"></span>
+    </button>
+    <button class="btn btn-success pull-right"
+            [disabled]="!bCorrectPos"
+            ng-show="oGame.state == 'position' && strPlayerState != 'play'"
+            ng-click="startGame()">Start Game</button>
+    <button class="btn btn-default pull-right"
+            disabled="disabled"
+            ng-show="oGame.state == 'position' && strPlayerState == 'play'">Waiting for other players</button>
+    <button class="btn btn-danger"
+            ng-disabled="strPlayer != strCurPlayer || elSelectedPos == null"
+            ng-show="oGame.state == 'play'" ng-click="fire()">Fire</button>
+    <span ng-show="strWinner">{{strWinner}} WINS!!!</span>
+    <span ng-show="strPlayer != strCurPlayer && !strWinner">Waiting for {{strCurPlayer}}</span>
+    <span ng-show="strPlayer == strCurPlayer && !strWinner">Shots Remaining: {{iShotsAvailable}}</span>
+    {{ strShowPlayer }}
+    <hr/>
+    <div>
+        <div class="panel player" ng-repeat="player in oGame.players">
+            <div class="panel-heading">
+                player_name
+            </div>
+            <ul class="list-group">
+<!--                <li class="list-group-item" ng-repeat="let ship of player.ships">{{ship.name()}}-->
+<!--                    <span class="circle"-->
+<!--                          ng-repeat="hit in ship.getHits(aShots).sort().reverse() track by $index">-->
+<!--                        <span class="hit" ng-show="hit"></span>-->
+<!--                    </span>-->
+<!--                </li>-->
+            </ul>
+        </div>
+    </div>
+</div>

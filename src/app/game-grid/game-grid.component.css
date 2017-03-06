@@ -1,0 +1,27 @@
+/* TODO: Use better CSS */
+:host {
+    border: 1px solid #ccc;
+    height: 500px;
+    position: absolute;
+    width: 500px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.cell_row {
+    clear: left;
+    height: 8.333333333333332%;
+}
+.cell {
+    border: 1px solid rgba(190,190,190,0.5);
+    display: inline-block;
+    float: left;
+    height: 100%;
+    position: relative;
+    width: 8.333333333333332%;
+    z-index: 20;
+}

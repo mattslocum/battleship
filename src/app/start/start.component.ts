@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-start',
@@ -10,7 +11,9 @@ export class StartComponent implements OnInit {
     public errorMsg : string;
     public gameType : string = "singleGrid";
 
-    constructor() { }
+    constructor(
+        private router: Router,
+    ) { }
 
     ngOnInit() {
     }
@@ -28,6 +31,7 @@ export class StartComponent implements OnInit {
     //         if (!$scope.$$phase) {
     //             $scope.$digest();
     //         }
+            this.router.navigate(['/play', 'new', 'setup']);
         } else {
             this.errorMsg = "Please enter a name";
         }

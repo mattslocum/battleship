@@ -1,0 +1,8 @@
+<div class="row" [class.position]="positioning">
+    <div class="col-md-8">
+        <app-game-grid #grid [player]="game.getPlayer(playerName)"></app-game-grid>
+    </div>
+    <div class="col-md-4 sidebar-offcanvas">
+        <app-game-controls [selectedShip]="grid.selectedShip"></app-game-controls>
+    </div>
+</div>
