@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-        <div [hidden]="!errorMsg" class="alert alert-danger">
+        <div *ngIf="errorMsg" class="alert alert-danger">
             {{ errorMsg }}
         </div>
         <h2>Create New Game</h2>

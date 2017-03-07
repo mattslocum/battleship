@@ -1,5 +1,6 @@
 import {Ship, ShipTypes} from "./Ship";
 import {Injectable} from "@angular/core";
+import {ICord} from "./interfaces";
 
 export class Player {
     public ships : Ship[] = [];
@@ -17,6 +18,31 @@ export class Player {
         this.ships.push(new Ship(ShipTypes.Destroyer));
         this.ships.push(new Ship(ShipTypes.Submarine));
     }
+
+    public validShipPositions() : boolean {
+        let validPos : boolean = true,
+            positions : any = {};
+
+        this.ships.some((ship) => {
+            if (!validPos) {
+                return true;
+            }
+
+            ship.getCells().forEach((pos) => {
+                if (typeof positions[pos.y] == "undefined") {
+                    positions[pos.y] = {};
+                }
+                if (positions[pos.y][pos.x]) {
+                    validPos = false;
+                } else {
+                    positions[pos.y][pos.x] = true;
+                }
+            });
+        });
+
+        return validPos;
+    }
+
    /*  {
    "players": [{
         "name": "asdf",

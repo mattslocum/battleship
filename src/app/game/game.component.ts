@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Game} from "../objects/Game";
-import {GameService} from "../service/GameService";
+import {GameService} from "../service/game.service";
+import {PlayerService} from "../service/player.service";
+import {ActivatedRoute, UrlSegment} from "@angular/router";
+import {SETUP_ROUTE_PART} from "../objects/consts";
 
 @Component({
   selector: 'app-game',
@@ -13,12 +16,19 @@ export class GameComponent implements OnInit {
     public positioning : boolean = true;
 
     constructor(
-        private gameService : GameService
+        private route : ActivatedRoute,
+        private gameService : GameService,
+        private playerService : PlayerService
     ) { }
 
     ngOnInit() {
-        this.game = this.gameService.newGame();
-        this.game.createPlayer(this.playerName);
+        this.game = this.gameService.getGame();
+        this.game.createPlayer(this.playerService.playerName);
+
+        this.route.url
+            .subscribe((parts : UrlSegment[]) => {
+                this.positioning = parts[parts.length - 1].path == SETUP_ROUTE_PART;
+            });
     }
 
 }

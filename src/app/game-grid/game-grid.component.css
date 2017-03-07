@@ -25,3 +25,10 @@
     width: 8.333333333333332%;
     z-index: 20;
 }
+
+.cell:hover {
+    border-color: #999;
+}
+.cell.target {
+    border: 5px solid #d2322d;
+}

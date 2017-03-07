@@ -20,7 +20,7 @@ export class StartComponent implements OnInit {
 
     createGame() {
         if (this.playerName) {
-    //         $scope.oGame = gameService.newGame({
+    //         $scope.oGame = gameService.getGame({
     //             'game': $scope.strGame,
     //             'player': $scope.strPlayer,
     //             'type': $scope.strGameType

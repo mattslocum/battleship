@@ -10,7 +10,8 @@ import { GameComponent } from './game/game.component';
 import { GameGridComponent } from './game-grid/game-grid.component';
 import { GameControlsComponent } from './game-controls/game-controls.component';
 import { GridShipComponent } from './grid-ship/grid-ship.component';
-import {GameService} from "./service/GameService";
+import {GameService} from "./service/game.service";
+import {PlayerService} from "./service/player.service";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {GameService} from "./service/GameService";
     AppRoutingModule
   ],
   providers: [
-      GameService
+      GameService,
+      PlayerService,
   ],
   bootstrap: [AppComponent]
 })

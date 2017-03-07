@@ -2,6 +2,8 @@ import {Component, OnInit, Input, ElementRef, Renderer} from '@angular/core';
 import {Ship} from "../objects/Ship";
 import {element} from "protractor";
 import {ICord} from "../objects/interfaces";
+import {ActivatedRoute, UrlSegment} from "@angular/router";
+import {SETUP_ROUTE_PART} from "../objects/consts";
 
 const BOX_SIZE : number = 40;
 // TODO: get this from somewhere else
@@ -21,16 +23,39 @@ export class GridShipComponent implements OnInit {
     private isDragging : boolean = false;
     private mouseDownEvent : MouseEvent;
     private startDragPos : ICord;
+    public doingSetup : boolean = false;
 
     constructor(
         private elementRef: ElementRef,
-        private renderer: Renderer
+        private renderer: Renderer,
+        private route : ActivatedRoute
     ) { }
 
     ngOnInit() {
+        this.initRouteCheck();
         this.setShipClasses();
-        // TODO: only on positioning
-        this.setEventBindings();
+    }
+
+    // Future: maybe make the ship send an event that it changed.
+    ngDoCheck() {
+        if (this.doingSetup && this.ship.hasNewRotation) {
+            this.fixPosition();
+            this.setShipClasses();
+            this.ship.hasNewRotation = false;
+        }
+    }
+
+    private initRouteCheck() {
+        this.route.url
+            .subscribe((parts : UrlSegment[]) => {
+                this.doingSetup = parts[parts.length - 1].path == SETUP_ROUTE_PART;
+
+                if (this.doingSetup) {
+                    this.setEventBindings();
+                } else {
+                    this.removeEventBindings();
+                }
+            });
     }
 
     private setShipClasses() {
@@ -48,6 +73,11 @@ export class GridShipComponent implements OnInit {
         this.listeners.push(this.renderer.listenGlobal('document', 'mouseup', this.mouseUpHandler.bind(this)));
     }
 
+    private removeEventBindings() {
+        this.listeners.forEach((listener) => listener());
+        this.listeners = [];
+    }
+
     private mouseDownHandler(event : MouseEvent) {
         this.isSelected = this.elementRef.nativeElement == (<Node>event.target).parentNode;
         this.shipClasses['selected'] = this.isSelected;
@@ -59,51 +89,37 @@ export class GridShipComponent implements OnInit {
                 x: this.ship.position.x,
                 y: this.ship.position.y
             };
-            // iMouseX = e.pageX;
-            // iMouseY = e.pageY;
-            // iStartX = scope.ship.position()[0].x;
-            // iStartY = scope.ship.position()[0].y;
-
-            // assignments need to go to the parent, but reads will bubble up
-            // scope.$parent.elSelectedShip = element;
-            // scope.$parent.oSelectedShip = scope.ship;
         }
     }
 
     private mouseMoveHandler(event : MouseEvent) {
         if (this.isDragging) {
             let y : number = Math.round((event.pageY - this.mouseDownEvent.pageY) / BOX_SIZE),
-                x : number = Math.round((event.pageX - this.mouseDownEvent.pageX) / BOX_SIZE),
-                xOffset : number = 0;
+                x : number = Math.round((event.pageX - this.mouseDownEvent.pageX) / BOX_SIZE);
 
             if (x != this.ship.position.x || y != this.ship.position.y) {
-                // element.removeClass('x-'+ scope.ship.position()[0].x);
-                // element.removeClass('y-'+ scope.ship.position()[0].y);
-                // if (scope.ship.angle()  == 135) {
-                //     xOffset = scope.ship.size() - 1;
-                // }
-                this.ship.position.y = Math.max(0, Math.min(GRID_SIZE - this.ship.shipHeight, this.startDragPos.y + y));
-                this.ship.position.x = Math.max(xOffset, Math.min(GRID_SIZE - this.ship.shipWidth + xOffset, this.startDragPos.x + x));
+                this.ship.position.y = this.startDragPos.y + y;
+                this.ship.position.x = this.startDragPos.x + x;
+                this.fixPosition();
 
                 this.setShipClasses();
-                // element.addClass('x-'+ scope.ship.position()[0].x);
-                // element.addClass('y-'+ scope.ship.position()[0].y);
             }
         }
     }
 
     private mouseUpHandler(event : MouseEvent) {
         this.isDragging = false;
-        // if (bDragging) {
-        //     scope.ship.updatePositions();
-        //     scope.checkShipsPos();
-        //     bDragging = false;
-        //     element.removeClass('dragging');
-        // }
     }
 
     public ngOnDestroy() {
-        this.listeners.forEach((listener) => listener());
-        this.listeners = [];
+        this.removeEventBindings();
+    }
+
+    private fixPosition() {
+        let xOffset : number = this.ship.angle  == 135 ?
+            this.ship.shipWidth - 1 :
+            0;
+        this.ship.position.y = Math.max(0, Math.min(GRID_SIZE - this.ship.shipHeight, this.ship.position.y));
+        this.ship.position.x = Math.max(xOffset, Math.min(GRID_SIZE - this.ship.shipWidth + xOffset, this.ship.position.x));
     }
 }

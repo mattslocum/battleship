@@ -15,6 +15,7 @@ export class Ship {
     public angle : number = 0;
     public position : ICord;
     public hits : number[];
+    public hasNewRotation : boolean = false;
     public status : string = "";
 
     constructor(
@@ -74,6 +75,39 @@ export class Ship {
     }
 
     public rotate() : void {
-        this.angle = (this.angle + 45) % 180
+        this.angle = (this.angle + 45) % 180;
+        this.hasNewRotation = true;
+    }
+
+    public getCells() : ICord[] {
+        let cords : ICord[] = [];
+
+        let xOffset : number = 0,
+            yOffset : number = 0;
+
+        switch (this.angle) {
+            case 0:
+                xOffset = 1;
+                break;
+            case 45:
+                xOffset = 1;
+                yOffset = 1;
+                break;
+            case 90:
+                yOffset = 1;
+                break;
+            case 135:
+                yOffset = 1;
+                xOffset = -1;
+        }
+
+        for (let i = 0; i < this.size; i++) {
+            cords.push({
+                x: this.position.x + xOffset * i,
+                y: this.position.y + yOffset * i
+            });
+        }
+
+        return cords;
     }
 }

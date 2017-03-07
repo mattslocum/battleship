@@ -1,0 +1,72 @@
+.panel.player:nth-child(6n+1) {
+    border-color: #428BCA;
+}
+.panel.player:nth-child(6n+1) > .panel-heading {
+    color: white;
+    background-color: #428BCA;
+    border-color: #428BCA;
+}
+.panel.player:nth-child(6n+2) {
+    border-color: #EB9800;
+}
+.panel.player:nth-child(6n+2) > .panel-heading {
+    color: white;
+    background-color: #EB9800;
+    border-color: #EB9800;
+}
+.panel.player:nth-child(6n+3) {
+    border-color: #bd051a;
+}
+.panel.player:nth-child(6n+3) > .panel-heading {
+    color: white;
+    background-color: #bd051a;
+    border-color: #bd051a;
+}
+.panel.player:nth-child(6n+4) {
+    border-color: #5cb85c;
+}
+.panel.player:nth-child(6n+4) > .panel-heading {
+    color: white;
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+}
+.panel.player:nth-child(6n+5) {
+    border-color: #8A00B8;
+}
+.panel.player:nth-child(6n+5) > .panel-heading {
+    color: white;
+    background-color: #8A00B8;
+    border-color: #8A00B8;
+}
+.panel.player:nth-child(6n+6) {
+    border-color: #000099;
+}
+.panel.player:nth-child(6n+6) > .panel-heading {
+    color: white;
+    background-color: #000099;
+    border-color: #000099;
+}
+.panel-heading {
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 6px 15px;
+}
+
+.list-group-item {
+    padding: 3px 15px;
+}
+.player .circle {
+    border: 1px solid #AAA;
+    border-radius: 6px;
+    float: right;
+    height: 12px;
+    margin: 5px 1px 0;
+    overflow: hidden;
+    width: 12px;
+}
+.player .circle .hit {
+    background-color: #555;
+    display: block;
+    height: 100%;
+    width: 100%;
+}

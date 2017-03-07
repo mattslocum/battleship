@@ -1,15 +1,16 @@
-import {Injectable, EventEmitter} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Game} from "../objects/Game";
 
 @Injectable()
 export class GameService {
     // private gameEvent : EventEmitter<any> = new EventEmitter();
+    private game : Game = new Game();
 
     constructor(
     ) {}
 
-    public newGame() {
-        return new Game();
+    public getGame() : Game {
+        return this.game;
     }
 // {
     // "players": [{
