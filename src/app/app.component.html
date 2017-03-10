@@ -3,6 +3,12 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Battleship</a>
         </div>
+        <div class="navbar-collapse collapse" aria-expanded="false">
+            <div class="navbar-form navbar-right">
+                <button class="btn btn-default" *ngIf="!isSignedIn" (click)="signIn()">Sign In</button>
+                <button class="btn btn-default" *ngIf="isSignedIn" (click)="signOut()">Sign Out</button>
+            </div>
+        </div>
     </div><!-- /.container -->
 </div><!-- /.navbar -->
 
