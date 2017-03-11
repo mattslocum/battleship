@@ -3,7 +3,7 @@ import {Ship} from "../objects/Ship";
 import {element} from "protractor";
 import {ICord} from "../objects/interfaces";
 import {ActivatedRoute, UrlSegment} from "@angular/router";
-import {SETUP_ROUTE_PART} from "../objects/consts";
+import {ROUTE_PART_SETUP} from "../objects/consts";
 
 const BOX_SIZE : number = 40;
 // TODO: get this from somewhere else
@@ -48,7 +48,7 @@ export class GridShipComponent implements OnInit {
     private initRouteCheck() {
         this.route.url
             .subscribe((parts : UrlSegment[]) => {
-                this.doingSetup = parts[parts.length - 1].path == SETUP_ROUTE_PART;
+                this.doingSetup = parts[parts.length - 1].path == ROUTE_PART_SETUP;
 
                 if (this.doingSetup) {
                     this.setEventBindings();

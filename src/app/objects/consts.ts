@@ -1,2 +1,2 @@
-export const SETUP_ROUTE_PART : string = "setup";
-export const PLAY_ROUTE_PART : string = "play";
+export const ROUTE_PART_SETUP : string = "setup";
+export const ROUTE_PART_PLAY : string = "play";

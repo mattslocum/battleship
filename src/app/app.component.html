@@ -5,8 +5,8 @@
         </div>
         <div class="navbar-collapse collapse" aria-expanded="false">
             <div class="navbar-form navbar-right">
-                <button class="btn btn-default" *ngIf="!isSignedIn" (click)="signIn()">Sign In</button>
-                <button class="btn btn-default" *ngIf="isSignedIn" (click)="signOut()">Sign Out</button>
+                <button class="btn btn-default btn-sm" *ngIf="!isSignedIn" (click)="signIn()">Sign In</button>
+                <button class="btn btn-default btn-sm" *ngIf="isSignedIn" (click)="signOut()">Sign Out</button>
             </div>
         </div>
     </div><!-- /.container -->

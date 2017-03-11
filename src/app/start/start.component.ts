@@ -28,13 +28,13 @@ export class StartComponent implements OnInit {
         //         client_id: '244043521193-0eqj994haunsb1a056fkna5ajce9juh1.apps.googleusercontent.com'
         //     })).then((GoogleAuth) => {
         //         this.zone.run(() => {
-        //             $this.playerName = GoogleAuth.currentUser.get().getBasicProfile().getName();
+        //             $this.playerProfile = GoogleAuth.currentUser.get().getBasicProfile().getName();
         //         });
         //     }, () => {});
         // });
 
             // setTimeout(() => {
-            //     // this.playerName = name;
+            //     // this.playerProfile = name;
             // }, 2000);
         // });
     }

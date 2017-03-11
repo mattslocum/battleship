@@ -9,6 +9,12 @@ export class GameService {
     constructor(
     ) {}
 
+    public newGame(player : string) : Game {
+        this.game = new Game();
+        this.game.createPlayer(player);
+        return this.game;
+    }
+
     public getGame() : Game {
         return this.game;
     }

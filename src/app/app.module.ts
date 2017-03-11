@@ -12,6 +12,7 @@ import { GameControlsComponent } from './game-controls/game-controls.component';
 import { GridShipComponent } from './grid-ship/grid-ship.component';
 import {GameService} from "./service/game.service";
 import {PlayerService} from "./service/player.service";
+import {PlayerResover} from "./service/player.resolver";
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {PlayerService} from "./service/player.service";
   providers: [
       GameService,
       PlayerService,
+      PlayerResover
   ],
   bootstrap: [AppComponent]
 })

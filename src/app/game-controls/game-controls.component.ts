@@ -3,8 +3,9 @@ import {Ship} from "../objects/Ship";
 import {GameService} from "../service/game.service";
 import {Game} from "../objects/Game";
 import {Router, ActivatedRoute, UrlSegment} from "@angular/router";
-import {SETUP_ROUTE_PART, PLAY_ROUTE_PART} from "../objects/consts";
+import {ROUTE_PART_SETUP, ROUTE_PART_PLAY} from "../objects/consts";
 import {PlayerService} from "../service/player.service";
+import BasicProfile = gapi.auth2.BasicProfile;
 
 @Component({
     selector: 'app-game-controls',
@@ -18,6 +19,7 @@ import {PlayerService} from "../service/player.service";
 export class GameControlsComponent implements OnInit {
     @Input() public selectedShip : Ship;
     private game : Game;
+    private playerName : string;
     public doingSetup : boolean;
     public playing : boolean;
     public validPositions : boolean = true;
@@ -32,17 +34,21 @@ export class GameControlsComponent implements OnInit {
     }
 
     public ngOnInit() {
+        this.route.data
+            .subscribe(({ player } : { player : BasicProfile }) => {
+                this.playerName = player.getName();
+            });
+
         this.route.url
             .subscribe((parts : UrlSegment[]) => {
-                this.doingSetup = parts[parts.length - 1].path == SETUP_ROUTE_PART;
-                this.playing = !this.doingSetup && parts[0].path == PLAY_ROUTE_PART;
-                console.log(this.playing);
+                this.doingSetup = parts[parts.length - 1].path == ROUTE_PART_SETUP;
+                this.playing = !this.doingSetup && parts[0].path == ROUTE_PART_PLAY;
             });
     }
 
     public ngDoCheck() {
         if (this.doingSetup) {
-            this.validPositions = this.game.getPlayer(this.playerService.playerName).validShipPositions();
+            this.validPositions = this.game.getPlayer(this.playerName).validShipPositions();
         }
     }
 
