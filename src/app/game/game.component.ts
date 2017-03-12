@@ -5,6 +5,7 @@ import {PlayerService} from "../service/player.service";
 import {ActivatedRoute, UrlSegment, Router} from "@angular/router";
 import {ROUTE_PART_SETUP, ROUTE_PART_PLAY} from "../objects/consts";
 import BasicProfile = gapi.auth2.BasicProfile;
+import {Player} from "../objects/Player";
 
 @Component({
   selector: 'app-game',
@@ -13,7 +14,7 @@ import BasicProfile = gapi.auth2.BasicProfile;
 })
 export class GameComponent implements OnInit {
     public game : Game;
-    public playerId : string;
+    public player : Player;
     public positioning : boolean = true;
 
     constructor(
@@ -24,8 +25,8 @@ export class GameComponent implements OnInit {
 
     ngOnInit() {
         this.route.data
-            .subscribe(({ player, game } : { player : BasicProfile, game : Game }) => {
-                this.playerId = player.getId();
+            .subscribe(({ profile, game } : { profile : BasicProfile, game : Game }) => {
+                this.player = game.getPlayer(profile.getId());
                 this.game = game;
                 this.positioning = game.status == GameStatus.SETUP;
             });

@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Game} from "../objects/Game";
+import {Game, GameStatus} from "../objects/Game";
 import BasicProfile = gapi.auth2.BasicProfile;
 import {AngularFire} from "angularfire2";
 import {Player} from "../objects/Player";
@@ -83,10 +83,17 @@ export class GameService {
         });
     }
 
-    public saveGame(playerId : string) {
+    public savePlayersGame(playerId : string) {
         let player : Player = this.game.getPlayer(playerId);
         let playerIndex : number = this.game.players.indexOf(player);
         this.firebase.database.object(`games/${this.game.gameID}/players/${playerIndex}`).update(player)
+    }
+
+    public startGame() {
+        this.game.status = GameStatus.PLAYING;
+        this.firebase.database.object(`games/${this.game.gameID}`).update({
+            status : this.game.status
+        })
     }
 
 // {

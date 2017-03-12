@@ -10,7 +10,7 @@ const routes: Routes = [
         path: 'play/:id/setup',
         component: GameComponent,
         resolve: {
-            player: PlayerResover,
+            profile: PlayerResover,
             game: GameResover
         }
     },
@@ -18,7 +18,7 @@ const routes: Routes = [
         path: 'play/:id',
         component: GameComponent,
         resolve: {
-            player: PlayerResover,
+            profile: PlayerResover,
             game: GameResover
         }
     },

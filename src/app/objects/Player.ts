@@ -14,7 +14,7 @@ export class Player {
         locked ?: boolean
     ) {
         this.initShips(ships);
-        this.locked = this.locked || locked;
+        this.locked = this.locked || !!locked;
     }
 
     private initShips(ships ?: Ship[]) {

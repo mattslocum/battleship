@@ -37,8 +37,8 @@ export class GameControlsComponent implements OnInit {
         this.game = this.gameService.getGame();
 
         this.route.data
-            .subscribe(({ player } : { player : BasicProfile }) => {
-                this.playerId = player.getId();
+            .subscribe(({ profile } : { profile : BasicProfile }) => {
+                this.playerId = profile.getId();
                 this.player = this.game.getPlayer(this.playerId);
             });
 
@@ -61,12 +61,13 @@ export class GameControlsComponent implements OnInit {
 
     public startGame() : void {
         // this.router.navigate(['../', { id: crisisId, foo: 'foo' }], { relativeTo: this.route });
+        this.gameService.startGame();
         this.router.navigate(['../'], { relativeTo: this.route });
     }
 
     public lockShips() : void {
         this.game.getPlayer(this.playerId).lockShips();
-        this.gameService.saveGame(this.playerId);
+        this.gameService.savePlayersGame(this.playerId);
     }
 
     public fire() : void {
