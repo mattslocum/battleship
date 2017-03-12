@@ -13,24 +13,41 @@ import { GridShipComponent } from './grid-ship/grid-ship.component';
 import {GameService} from "./service/game.service";
 import {PlayerService} from "./service/player.service";
 import {PlayerResover} from "./service/player.resolver";
+import {AngularFireModule, FirebaseAppConfig, AuthProviders, AuthMethods} from "angularfire2";
+import {GameResover} from "./service/game.resolver";
+
+const firebaseConfig : FirebaseAppConfig = {
+    apiKey: "AIzaSyBPz8WD91uJ5IX_qQdKASFQdaA2iuonzHo",
+    authDomain: "battleship-161001.firebaseapp.com",
+    databaseURL: "https://battleship-161001.firebaseio.com",
+    storageBucket: "battleship-161001.appspot.com",
+    messagingSenderId: "244043521193"
+};
+
+const myFirebaseAuthConfig = {
+    provider: AuthProviders.Google,
+    method: AuthMethods.Redirect
+};
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    StartComponent,
-    GameComponent,
-    GameGridComponent,
-    GameControlsComponent,
-    GridShipComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    AppRoutingModule
+    declarations: [
+        AppComponent,
+        StartComponent,
+        GameComponent,
+        GameGridComponent,
+        GameControlsComponent,
+        GridShipComponent
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        AppRoutingModule,
+        AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig, "battleship")
   ],
   providers: [
       GameService,
+      GameResover,
       PlayerService,
       PlayerResover
   ],

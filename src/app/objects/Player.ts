@@ -1,22 +1,35 @@
 import {Ship, ShipTypes} from "./Ship";
 import {Injectable} from "@angular/core";
 import {ICord} from "./interfaces";
+import BasicProfile = gapi.auth2.BasicProfile;
 
 export class Player {
     public ships : Ship[] = [];
+    private locked : boolean = false;
 
     constructor(
-        public name : string
+        public id : string,
+        public name : string,
+        ships ?: Ship[],
+        locked ?: boolean
     ) {
-        this.initShips();
+        this.initShips(ships);
+        this.locked = this.locked || locked;
     }
 
-    private initShips() {
-        this.ships.push(new Ship(ShipTypes.Carrier));
-        this.ships.push(new Ship(ShipTypes.Battleship));
-        this.ships.push(new Ship(ShipTypes.Cruiser));
-        this.ships.push(new Ship(ShipTypes.Destroyer));
-        this.ships.push(new Ship(ShipTypes.Submarine));
+    private initShips(ships ?: Ship[]) {
+        if (ships) {
+            this.ships = ships;
+            this.ships.forEach((shipData, pos) => {
+                this.ships[pos] = Object.assign(new Ship(shipData.type), shipData);
+            });
+        } else {
+            this.ships.push(new Ship(ShipTypes.Carrier));
+            this.ships.push(new Ship(ShipTypes.Battleship));
+            this.ships.push(new Ship(ShipTypes.Cruiser));
+            this.ships.push(new Ship(ShipTypes.Destroyer));
+            this.ships.push(new Ship(ShipTypes.Submarine));
+        }
     }
 
     public validShipPositions() : boolean {
@@ -41,6 +54,10 @@ export class Player {
         });
 
         return validPos;
+    }
+
+    public lockShips() : void {
+        this.locked = true;
     }
 
    /*  {

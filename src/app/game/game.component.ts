@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Game} from "../objects/Game";
+import {Game, GameStatus} from "../objects/Game";
 import {GameService} from "../service/game.service";
 import {PlayerService} from "../service/player.service";
-import {
-    ActivatedRoute, UrlSegment, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot,
-    Router
-} from "@angular/router";
-import {ROUTE_PART_SETUP} from "../objects/consts";
+import {ActivatedRoute, UrlSegment, Router} from "@angular/router";
+import {ROUTE_PART_SETUP, ROUTE_PART_PLAY} from "../objects/consts";
 import BasicProfile = gapi.auth2.BasicProfile;
 
 @Component({
@@ -16,32 +13,38 @@ import BasicProfile = gapi.auth2.BasicProfile;
 })
 export class GameComponent implements OnInit {
     public game : Game;
-    public playerName : string;
+    public playerId : string;
     public positioning : boolean = true;
 
     constructor(
         private route : ActivatedRoute,
+        private router : Router,
         private gameService : GameService,
     ) {}
 
     ngOnInit() {
         this.route.data
-            .subscribe(({ player } : { player : BasicProfile }) => {
-                this.playerName = player.getName();
+            .subscribe(({ player, game } : { player : BasicProfile, game : Game }) => {
+                this.playerId = player.getId();
+                this.game = game;
+                this.positioning = game.status == GameStatus.SETUP;
             });
 
+        // validate URL
         this.route.url
             .subscribe((parts : UrlSegment[]) => {
-                this.positioning = parts[parts.length - 1].path == ROUTE_PART_SETUP;
-                if (this.positioning) {
-                    this.setupGame();
+                if (this.game) {
+                    if (parts[parts.length - 1].path == ROUTE_PART_SETUP && this.game.status != GameStatus.SETUP) {
+                        this.router.navigate(['../']);
+                    } else if (parts[parts.length - 1].path != ROUTE_PART_SETUP && this.game.status == GameStatus.SETUP) {
+                        this.router.navigate(['./setup'], { relativeTo: this.route });
+                    }
                 }
             });
     }
 
     private setupGame() {
         this.game = this.gameService.getGame();
-        this.game.createPlayer(this.playerName);
     }
 
 }

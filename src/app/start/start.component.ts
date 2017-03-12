@@ -1,6 +1,9 @@
 import {Component, OnInit, NgZone} from '@angular/core';
 import {Router} from "@angular/router";
 import {PlayerService} from "../service/player.service";
+import BasicProfile = gapi.auth2.BasicProfile;
+import 'rxjs/add/operator/take';
+import {GameService} from "../service/game.service";
 
 @Component({
     selector: 'app-start',
@@ -8,16 +11,17 @@ import {PlayerService} from "../service/player.service";
     styleUrls: ['./start.component.css']
 })
 export class StartComponent implements OnInit {
-    public playerName : string = "";
-    public errorMsg : string;
+    public playerProfile : BasicProfile;
+    public gameID : string = "";
     public gameType : string = "singleGrid";
     public isSignedIn : boolean;
     public checkingLogin : boolean;
 
     constructor(
         private router: Router,
-        private playerService : PlayerService,
         private zone : NgZone,
+        private playerService : PlayerService,
+        private gameService : GameService
     ) { }
 
     ngOnInit() {
@@ -50,7 +54,7 @@ export class StartComponent implements OnInit {
             if (isLoggedIn) {
                 this.playerService.getUserProfile().then((playerProfile) => {
                     this.zone.run(() => {
-                        this.playerName = playerProfile.getName();
+                        this.playerProfile = playerProfile;
                     });
                 });
             }
@@ -58,7 +62,9 @@ export class StartComponent implements OnInit {
     }
 
     createGame() {
-        this.router.navigate(['/play', 'new', 'setup']);
+        this.gameService.createGame(this.playerProfile).then((gameID) => {
+            this.router.navigate(['/play', gameID, 'setup']);
+        });
     }
 
     public signIn() {

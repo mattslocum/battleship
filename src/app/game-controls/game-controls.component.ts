@@ -6,6 +6,7 @@ import {Router, ActivatedRoute, UrlSegment} from "@angular/router";
 import {ROUTE_PART_SETUP, ROUTE_PART_PLAY} from "../objects/consts";
 import {PlayerService} from "../service/player.service";
 import BasicProfile = gapi.auth2.BasicProfile;
+import {Player} from "../objects/Player";
 
 @Component({
     selector: 'app-game-controls',
@@ -19,24 +20,26 @@ import BasicProfile = gapi.auth2.BasicProfile;
 export class GameControlsComponent implements OnInit {
     @Input() public selectedShip : Ship;
     private game : Game;
-    private playerName : string;
+    private playerId : string;
     public doingSetup : boolean;
     public playing : boolean;
     public validPositions : boolean = true;
+    public player : Player;
 
     constructor(
         private route : ActivatedRoute,
         private router : Router,
         private playerService : PlayerService,
-        gameService : GameService
-    ) {
-        this.game = gameService.getGame();
-    }
+        private gameService : GameService
+    ) {}
 
     public ngOnInit() {
+        this.game = this.gameService.getGame();
+
         this.route.data
             .subscribe(({ player } : { player : BasicProfile }) => {
-                this.playerName = player.getName();
+                this.playerId = player.getId();
+                this.player = this.game.getPlayer(this.playerId);
             });
 
         this.route.url
@@ -48,7 +51,7 @@ export class GameControlsComponent implements OnInit {
 
     public ngDoCheck() {
         if (this.doingSetup) {
-            this.validPositions = this.game.getPlayer(this.playerName).validShipPositions();
+            this.validPositions = this.game.getPlayer(this.playerId).validShipPositions();
         }
     }
 
@@ -59,6 +62,11 @@ export class GameControlsComponent implements OnInit {
     public startGame() : void {
         // this.router.navigate(['../', { id: crisisId, foo: 'foo' }], { relativeTo: this.route });
         this.router.navigate(['../'], { relativeTo: this.route });
+    }
+
+    public lockShips() : void {
+        this.game.getPlayer(this.playerId).lockShips();
+        this.gameService.saveGame(this.playerId);
     }
 
     public fire() : void {

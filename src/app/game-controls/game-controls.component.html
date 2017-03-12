@@ -3,7 +3,12 @@
         <span class="glyphicon glyphicon-repeat"></span>
     </button>
     <button class="btn btn-success pull-right"
-            *ngIf="doingSetup"
+            *ngIf="doingSetup && !player.locked"
+            [disabled]="!validPositions"
+            (click)="lockShips()">Lock Ships</button>
+
+    <button class="btn btn-success pull-right"
+            *ngIf="doingSetup && player.locked"
             [disabled]="!validPositions"
             (click)="startGame()">Start Game</button>
 

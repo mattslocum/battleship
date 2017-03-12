@@ -1,39 +1,69 @@
 <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <div *ngIf="errorMsg" class="alert alert-danger">
-            {{ errorMsg }}
+    <form class="form-horizontal" role="form">
+        <div class="col-md-6">
+            <div class="panel panel-success">
+            <div class="panel-heading">
+                <h4>Create New Game</h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Player: </label>
+                    <div class="col-lg-9">
+                        <div *ngIf="isSignedIn" style="padding-top:7px;">{{ playerProfile.getName() }}</div>
+                        <button class="btn btn-default" *ngIf="!isSignedIn" (click)="signIn()">Sign In</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-3 control-label"><strong>Game Type</strong></div>
+                    <div class="col-lg-9">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="gameType" [(ngModel)]="gameType" value="singleGrid" />
+                                All players play on the same grid.
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" disabled name="gameType" [(ngModel)]="gameType" value="multiGrid" />
+                                Every player gets their own grid. (coming soon)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-3 col-lg-9">
+                        <button class="btn btn-success" (click)="createGame()" [disabled]="!isSignedIn">Create Game</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h2>Create New Game</h2>
-        <form class="form-horizontal" role="form">
-            <div class="form-group">
-                <label class="col-lg-3 control-label">My Name</label>
-                <div class="col-lg-9">
-                    <div *ngIf="isSignedIn" style="padding-top:7px;">{{ playerName }}</div>
-                    <button class="btn btn-default" *ngIf="!isSignedIn" (click)="signIn()">Sign In</button>
-                </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Join Existing Game</h4>
             </div>
-            <div class="form-group">
-                <div class="col-lg-3 control-label"><strong>Game Type</strong></div>
-                <div class="col-lg-9">
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="gameType" [(ngModel)]="gameType" value="singleGrid" />
-                            All players play on the same grid. (more fun)
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            <input type="radio" disabled name="gameType" [(ngModel)]="gameType" value="multiGrid" />
-                            Every player gets their own grid. (slower game)
-                        </label>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Player: </label>
+                    <div class="col-lg-9">
+                        <div *ngIf="isSignedIn" style="padding-top:7px;">{{ playerProfile.getName() }}</div>
+                        <button class="btn btn-default" *ngIf="!isSignedIn" (click)="signIn()">Sign In</button>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-offset-3 col-lg-9">
-                    <button class="btn btn-default" (click)="createGame()">Create Game</button>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Game ID: </label>
+                    <div class="col-lg-9">
+                        <input type="text" [(ngModel)]="gameID" name="gameID"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-3 col-lg-9">
+                        <button class="btn btn-info" (click)="joinGame()" [disabled]="!gameID || !isSignedIn">Join Game</button>
+                    </div>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+        </div>
+    </form>
 </div>
