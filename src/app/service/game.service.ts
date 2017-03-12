@@ -3,6 +3,8 @@ import {Game, GameStatus} from "../objects/Game";
 import BasicProfile = gapi.auth2.BasicProfile;
 import {AngularFire} from "angularfire2";
 import {Player} from "../objects/Player";
+import {Observable} from "rxjs";
+import {PlayerService} from "./player.service";
 
 // <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
 //     <script>
@@ -23,7 +25,8 @@ export class GameService {
     private game : Game;
 
     constructor(
-        private firebase : AngularFire
+        private firebase : AngularFire,
+        private playerService : PlayerService
     ) {}
 
     public createGame(player : BasicProfile) : Promise<number> {
@@ -47,21 +50,57 @@ export class GameService {
         return this.game;
     }
 
+    public getGameObservable() : Observable<Game> {
+        return new Observable((observer) => {
+            this.firebase.database.object(`games/${this.game.gameID}`).subscribe((data) => {
+                // TODO: merge with fetchGame so we don't have to worry about a race condition.
+                setTimeout(() => {
+                    observer.next(this.game)
+                }, 10);
+            });
+            // const mapObserver = {
+            //     next: (x) => observer.next(project(x)),
+            //     error: (err) => observer.error(err),
+            //     complete: () => observer.complete()
+            // };
+            // return this.subscribe(mapObserver);
+        });
+    }
+
     public fetchGame(gameID : string) : Promise<Game> {
         return new Promise((resolve, reject) => {
-            if (this.game) {
-                resolve(this.game);
-            } else {
-                this.firebase.database.object(`games/${gameID}`).take(1).subscribe((data) => {
-                    if (data.$exists()) {
-                        this.game = new Game(gameID, data.ownerID);
-                        this.game.initFromData(data);
-                        resolve(this.game);
-                    } else {
-                        reject();
-                    }
-                });
-            }
+            this.playerService.getUserProfile().then((playerProfile) => {
+                if (this.game) {
+                    resolve(this.game);
+                } else {
+                    this.firebase.database.object(`games/${gameID}`).subscribe((data) => {
+                        if (data.$exists()) {
+                            if (this.game && this.game.gameID == data.gameID) {
+                                // updated game
+                                this.game.status = data.status;
+                                data.players.forEach((playerData) => {
+                                    let playerObj: Player = this.game.getPlayer(playerData.id);
+                                    if (!playerObj) {
+                                        this.game.addPlayerFromData(playerData);
+                                    // we don't want to update our own player from external sources
+                                    } else if (playerProfile.getId() != playerData.id) {
+                                        Object.assign(playerObj, this.game.makePlayerFromData(playerData));
+                                    }
+                                });
+                                if (this.game.players.length != data.players.length) {
+                                }
+                            } else {
+                                // new game
+                                this.game = new Game(gameID, data.ownerID);
+                                this.game.initFromData(data);
+                            }
+                            resolve(this.game);
+                        } else {
+                            reject();
+                        }
+                    });
+                }
+            });
         });
     }
 
@@ -94,6 +133,16 @@ export class GameService {
         this.firebase.database.object(`games/${this.game.gameID}`).update({
             status : this.game.status
         })
+    }
+
+    public joinGame(gameID : string, profile : BasicProfile) : Promise<Game> {
+        return this.fetchGame(gameID).then((game) => {
+            if (!game.getPlayer(profile.getId())) {
+                game.createPlayer(profile);
+                this.firebase.database.object(`games/${this.game.gameID}/players/${game.players.length - 1}`).set(game.getPlayer(profile.getId()));
+            }
+            return game;
+        });
     }
 
 // {

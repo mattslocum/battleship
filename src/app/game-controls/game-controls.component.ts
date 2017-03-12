@@ -1,7 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {Ship} from "../objects/Ship";
 import {GameService} from "../service/game.service";
-import {Game} from "../objects/Game";
+import {Game, GameStatus} from "../objects/Game";
 import {Router, ActivatedRoute, UrlSegment} from "@angular/router";
 import {ROUTE_PART_SETUP, ROUTE_PART_PLAY} from "../objects/consts";
 import {PlayerService} from "../service/player.service";
@@ -23,6 +23,7 @@ export class GameControlsComponent implements OnInit {
     private playerId : string;
     public doingSetup : boolean;
     public playing : boolean;
+    public waiting : boolean = false;
     public validPositions : boolean = true;
     public player : Player;
 
@@ -35,11 +36,13 @@ export class GameControlsComponent implements OnInit {
 
     public ngOnInit() {
         this.game = this.gameService.getGame();
+        this.gameService.getGameObservable().subscribe(this.handleGameUpdate.bind(this));
 
         this.route.data
             .subscribe(({ profile } : { profile : BasicProfile }) => {
                 this.playerId = profile.getId();
                 this.player = this.game.getPlayer(this.playerId);
+                this.handleGameUpdate(this.game);
             });
 
         this.route.url
@@ -66,8 +69,26 @@ export class GameControlsComponent implements OnInit {
     }
 
     public lockShips() : void {
-        this.game.getPlayer(this.playerId).lockShips();
+        this.player.lockShips();
         this.gameService.savePlayersGame(this.playerId);
+    }
+
+    private handleGameUpdate(game) : void {
+        if (!game) {
+            return;
+        }
+        this.game = game;
+        if (!this.player) {
+            return;
+        }
+
+        this.waiting = false;
+
+        if (game.status == GameStatus.SETUP && this.player.locked) {
+            this.waiting = game.players.some((player) => {
+                return !player.locked;
+            });
+        }
     }
 
     public fire() : void {

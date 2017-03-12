@@ -5,7 +5,7 @@ import BasicProfile = gapi.auth2.BasicProfile;
 
 export class Player {
     public ships : Ship[] = [];
-    private locked : boolean = false;
+    public locked : boolean = false;
 
     constructor(
         public id : string,

@@ -74,4 +74,12 @@ export class StartComponent implements OnInit {
             }
         });
     }
+
+    public joinGame() {
+        this.gameService.joinGame(this.gameID, this.playerProfile).then((game) => {
+            this.router.navigate(['/play', this.gameID]);
+        }).catch(() => {
+            alert(`error getting game ${this.gameID}`);
+        });
+    }
 }

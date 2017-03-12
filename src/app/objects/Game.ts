@@ -17,13 +17,19 @@ export class Game {
 
     public initFromData(data : any) {
         this.status = data.status;
-        this.players = data.players.map((playerData) => {
-            return new Player(playerData.id, playerData.name, playerData.ships, playerData.locked);
-        });
+        this.players = data.players.map(this.makePlayerFromData);
     }
 
     public createPlayer(player : BasicProfile) {
-        this.players.push(new Player(player.getId(), player.getName()))
+        this.players.push(new Player(player.getId(), player.getName()));
+    }
+
+    public addPlayerFromData(playerData : any) {
+        this.players.push(this.makePlayerFromData(playerData));
+    }
+
+    public makePlayerFromData(playerData : any) : Player {
+        return new Player(playerData.id, playerData.name, playerData.ships, playerData.locked);
     }
 
     public getPlayer(id : string) {

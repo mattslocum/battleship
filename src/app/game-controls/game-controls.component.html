@@ -8,13 +8,14 @@
             (click)="lockShips()">Lock Ships</button>
 
     <button class="btn btn-success pull-right"
-            *ngIf="doingSetup && player.locked"
+            *ngIf="doingSetup && player.locked && !waiting"
             [disabled]="!validPositions"
             (click)="startGame()">Start Game</button>
 
     <button class="btn btn-default pull-right"
-            *ngIf="playing"
+            *ngIf="waiting"
             disabled="disabled">Waiting for other players</button>
+
     <button class="btn btn-danger"
             ng-disabled="strPlayer != strCurPlayer || elSelectedPos == null"
             *ngIf="playing"
@@ -42,4 +43,7 @@
             </ul>
         </div>
     </div>
+
+    <hr/>
+    <h4>Invite more players using game ID: <strong>{{game.gameID}}</strong></h4>
 </div>
