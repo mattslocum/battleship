@@ -24,28 +24,40 @@ export class GameComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        // TODO: Figure out how to get observable off of route data
+        this.gameService.getGameObservable().subscribe(this.handleGame.bind(this));
+
         this.route.data
             .subscribe(({ profile, game } : { profile : BasicProfile, game : Game }) => {
                 this.player = game.getPlayer(profile.getId());
-                this.game = game;
-                this.positioning = game.status == GameStatus.SETUP;
+                // this.game = game;
+                // this.positioning = game.status == GameStatus.SETUP;
             });
 
         // validate URL
         this.route.url
             .subscribe((parts : UrlSegment[]) => {
                 if (this.game) {
-                    if (parts[parts.length - 1].path == ROUTE_PART_SETUP && this.game.status != GameStatus.SETUP) {
-                        this.router.navigate(['../']);
-                    } else if (parts[parts.length - 1].path != ROUTE_PART_SETUP && this.game.status == GameStatus.SETUP) {
-                        this.router.navigate(['./setup'], { relativeTo: this.route });
-                    }
+                    this.validateRoute();
                 }
             });
     }
 
-    private setupGame() {
-        this.game = this.gameService.getGame();
+    private validateRoute() {
+        let parts : UrlSegment[] = this.route.snapshot.url;
+        if (parts[parts.length - 1].path == ROUTE_PART_SETUP && this.game.status != GameStatus.SETUP) {
+            this.router.navigate(['../'], { relativeTo: this.route });
+        } else if (parts[parts.length - 1].path != ROUTE_PART_SETUP && this.game.status == GameStatus.SETUP) {
+            this.router.navigate(['./setup'], { relativeTo: this.route });
+        }
+    }
+
+    private handleGame(game : Game) {
+        this.gameService.getGameObservable().subscribe((game) => {
+            this.game = game;
+            this.positioning = game.status == GameStatus.SETUP;
+            this.validateRoute();
+        });
     }
 
 }
