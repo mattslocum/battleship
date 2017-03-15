@@ -7,6 +7,9 @@ import {ROUTE_PART_SETUP, ROUTE_PART_PLAY} from "../objects/consts";
 import {PlayerService} from "../service/player.service";
 import BasicProfile = gapi.auth2.BasicProfile;
 import {Player} from "../objects/Player";
+import {GridCellComponent} from "../grid-cell/grid-cell.component";
+import {ShotService} from "../service/shot.service";
+import {IShot} from "../objects/interfaces";
 
 @Component({
     selector: 'app-game-controls',
@@ -19,6 +22,7 @@ import {Player} from "../objects/Player";
 })
 export class GameControlsComponent implements OnInit {
     @Input() public selectedShip : Ship;
+    @Input() public selectedCell : GridCellComponent;
     private game : Game;
     private playerId : string;
     public doingSetup : boolean;
@@ -26,12 +30,14 @@ export class GameControlsComponent implements OnInit {
     public waiting : boolean = false;
     public validPositions : boolean = true;
     public player : Player;
+    private listeningForShots : boolean = false;
 
     constructor(
         private route : ActivatedRoute,
         private router : Router,
         private playerService : PlayerService,
-        private gameService : GameService
+        private gameService : GameService,
+        private shotService : ShotService
     ) {}
 
     public ngOnInit() {
@@ -63,7 +69,6 @@ export class GameControlsComponent implements OnInit {
     }
 
     public startGame() : void {
-        // this.router.navigate(['../', { id: crisisId, foo: 'foo' }], { relativeTo: this.route });
         this.gameService.startGame();
         this.router.navigate(['../'], { relativeTo: this.route });
     }
@@ -82,15 +87,29 @@ export class GameControlsComponent implements OnInit {
             return;
         }
 
-        this.waiting = false;
-
         if (game.status == GameStatus.SETUP && this.player.locked) {
             this.waiting = game.players.some((player) => {
                 return !player.locked;
             });
+        } else if (game.status == GameStatus.PLAYING) {
+            if (!this.listeningForShots) {
+                this.shotService.getShots(this.game.gameID).subscribe(this.handleShotUpdate.bind(this));
+                this.listeningForShots = true;
+            }
         }
     }
 
+    private handleShotUpdate(shots : IShot[]) {
+        debugger;
+        // this.waiting = game.players.some((player) => {
+        //     return !player.locked;
+        // });
+    }
+
     public fire() : void {
+        this.shotService.fire({
+            x: this.selectedCell.x,
+            y: this.selectedCell.y
+        })
     }
 }

@@ -15,6 +15,8 @@ import {PlayerService} from "./service/player.service";
 import {PlayerResover} from "./service/player.resolver";
 import {AngularFireModule, FirebaseAppConfig, AuthProviders, AuthMethods} from "angularfire2";
 import {GameResover} from "./service/game.resolver";
+import { GridCellComponent } from './grid-cell/grid-cell.component';
+import {ShotService} from "./service/shot.service";
 
 const firebaseConfig : FirebaseAppConfig = {
     apiKey: "AIzaSyBPz8WD91uJ5IX_qQdKASFQdaA2iuonzHo",
@@ -36,7 +38,8 @@ const myFirebaseAuthConfig = {
         GameComponent,
         GameGridComponent,
         GameControlsComponent,
-        GridShipComponent
+        GridShipComponent,
+        GridCellComponent
     ],
     imports: [
         BrowserModule,
@@ -49,7 +52,8 @@ const myFirebaseAuthConfig = {
       GameService,
       GameResover,
       PlayerService,
-      PlayerResover
+      PlayerResover,
+      ShotService,
   ],
   bootstrap: [AppComponent]
 })

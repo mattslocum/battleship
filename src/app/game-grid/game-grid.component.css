@@ -16,19 +16,3 @@
     clear: left;
     height: 8.333333333333332%;
 }
-.cell {
-    border: 1px solid rgba(190,190,190,0.5);
-    display: inline-block;
-    float: left;
-    height: 100%;
-    position: relative;
-    width: 8.333333333333332%;
-    z-index: 20;
-}
-
-.cell:hover {
-    border-color: #999;
-}
-.cell.target {
-    border: 5px solid #d2322d;
-}

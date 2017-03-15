@@ -2,8 +2,8 @@
     <grid-ship [ship]="ship"></grid-ship>
 </div>
 
-<div *ngFor="let y of gridArray()" class="cell_row">
-    <div *ngFor="let x of gridArray()" class="cell"></div>
+<div *ngFor="let yPos of gridArray(); let y = index;" class="cell_row">
+    <grid-cell *ngFor="let xPos of gridArray(); let x = index;" (selected)="cellSelected($event)" [x]="x" [y]="y"></grid-cell>
 </div>
 
 <!--<div ng-repeat="y in range(gridSize) track by $index">-->
