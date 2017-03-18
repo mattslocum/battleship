@@ -26,11 +26,12 @@ export class ShotService {
         return new Observable((observer) => {
             this.fbShots = this.firebase.database.list(`${SHOT_ENDPOINT}/${gameID}`);
             this.fbShots.subscribe((shotData) => {
-                observer.next(shotData.filter((shot) => {
-                    let newShot : boolean = !this.previousShots[shot['$key']];
-                    this.previousShots[shot['$key']] = true;
-                    return newShot;
-                }));
+                observer.next(shotData);
+                // observer.next(shotData.filter((shot) => {
+                //     let newShot : boolean = !this.previousShots[shot['$key']];
+                //     this.previousShots[shot['$key']] = true;
+                //     return newShot;
+                // }));
             });
         });
     }

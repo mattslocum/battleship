@@ -40,6 +40,16 @@
     width: 82px;
 }
 
+.hit-loc {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+}
+.hit {
+    background-color: #444;
+    border-radius: 20px;
+}
+
 
 
 .x-0  { left: 0px }

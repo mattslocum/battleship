@@ -21,14 +21,14 @@ export class Player {
         if (ships) {
             this.ships = ships;
             this.ships.forEach((shipData, pos) => {
-                this.ships[pos] = Object.assign(new Ship(shipData.type), shipData);
+                this.ships[pos] = Object.assign(new Ship(this.id, shipData.type), shipData);
             });
         } else {
-            this.ships.push(new Ship(ShipTypes.Carrier));
-            this.ships.push(new Ship(ShipTypes.Battleship));
-            this.ships.push(new Ship(ShipTypes.Cruiser));
-            this.ships.push(new Ship(ShipTypes.Destroyer));
-            this.ships.push(new Ship(ShipTypes.Submarine));
+            this.ships.push(new Ship(this.id, ShipTypes.Carrier));
+            this.ships.push(new Ship(this.id, ShipTypes.Battleship));
+            this.ships.push(new Ship(this.id, ShipTypes.Cruiser));
+            this.ships.push(new Ship(this.id, ShipTypes.Destroyer));
+            this.ships.push(new Ship(this.id, ShipTypes.Submarine));
         }
     }
 
@@ -58,6 +58,19 @@ export class Player {
 
     public lockShips() : void {
         this.locked = true;
+    }
+
+    public hitShips(cord : ICord) : any[] {
+        let hits : any[] = [];
+
+        this.ships.some((ship) => {
+            if (ship.hitShip(cord)) {
+                hits.push(ship);
+                return true;
+            }
+        });
+
+        return hits;
     }
 
    /*  {

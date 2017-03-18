@@ -8,7 +8,7 @@ import BasicProfile = gapi.auth2.BasicProfile;
 import {Game} from "../objects/Game";
 import {GameService} from "../service/game.service";
 import {ShotService} from "../service/shot.service";
-import {IShot} from "../objects/interfaces";
+import {IShot, ICord} from "../objects/interfaces";
 
 @Component({
   selector: 'app-game-grid',
@@ -57,7 +57,15 @@ export class GameGridComponent implements OnInit {
     }
 
     private handleShotUpdate(shots : IShot[]) {
-        debugger;
+        shots.forEach((shot) => {
+            this.getCell(shot).hitCell(
+                this.gameService.hitShips(shot)
+            );
+        })
+    }
+
+    private getCell(cord : ICord) : GridCellComponent {
+        return this.cells.toArray()[cord.y * this.gridSize + cord.x];
     }
 
     get selectedShip() : Ship {

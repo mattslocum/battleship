@@ -1,3 +1,3 @@
 <div class="cell" [class.target]="isSelected" (click)="select()">
-
+    <span class="hit-ship" *ngFor="let color of hits" [ngClass]="color"></span>
 </div>

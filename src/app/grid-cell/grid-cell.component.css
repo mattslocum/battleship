@@ -14,3 +14,31 @@
 .cell.target {
     border: 5px solid #d2322d;
 }
+
+.hit-ship {
+    background-color: #999;
+    border-radius: 6px;
+    display: block;
+    float: left;
+    height: 10px;
+    margin: 2px 1px;
+    width: 10px;
+}
+.hit-ship.blue {
+    background-color: #428BCA;
+}
+.hit-ship.orange {
+    background-color: #EB9800;
+}
+.hit-ship.red {
+    background-color: #bd051a;
+}
+.hit-ship.green {
+    background-color: #5cb85c;
+}
+.hit-ship.purple {
+    background-color: #8A00B8;
+}
+.hit-ship.darkblue {
+    background-color: #000099;
+}

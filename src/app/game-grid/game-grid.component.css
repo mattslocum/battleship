@@ -2,6 +2,7 @@
 :host {
     border: 1px solid #ccc;
     height: 500px;
+    margin-bottom: 40px;
     position: absolute;
     width: 500px;
     -webkit-touch-callout: none;

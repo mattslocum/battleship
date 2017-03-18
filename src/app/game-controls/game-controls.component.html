@@ -40,7 +40,7 @@
 <!--                    <span class="circle"-->
 <!--                          ng-repeat="hit in ship.getHits(aShots).sort().reverse() track by $index">-->
                     <span class="circle"
-                          *ngFor="let hit of ship.hits.sort().reverse()">
+                          *ngFor="let hit of ship.hits.slice(0).sort()">
                         <span class="hit" *ngIf="hit"></span>
                     </span>
                 </li>
@@ -48,6 +48,8 @@
         </div>
     </div>
 
-    <hr/>
-    <h4>Invite more players using game ID: <strong>{{game.gameID}}</strong></h4>
+    <div *ngIf="doingSetup">
+        <hr/>
+        <h4>Invite more players using game ID: <strong>{{game.gameID}}</strong></h4>
+    </div>
 </div>

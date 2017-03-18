@@ -100,7 +100,6 @@ export class GameControlsComponent implements OnInit {
     }
 
     private handleShotUpdate(shots : IShot[]) {
-        debugger;
         // this.waiting = game.players.some((player) => {
         //     return !player.locked;
         // });

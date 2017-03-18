@@ -5,6 +5,7 @@ import {AngularFire} from "angularfire2";
 import {Player} from "../objects/Player";
 import {Observable} from "rxjs";
 import {PlayerService} from "./player.service";
+import {ICord} from "../objects/interfaces";
 
 // <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
 //     <script>
@@ -23,6 +24,7 @@ import {PlayerService} from "./player.service";
 export class GameService {
     // private gameEvent : EventEmitter<any> = new EventEmitter();
     private game : Game;
+    private profile : BasicProfile;
 
     constructor(
         private firebase : AngularFire,
@@ -70,6 +72,7 @@ export class GameService {
     public fetchGame(gameID : string) : Promise<Game> {
         return new Promise((resolve, reject) => {
             this.playerService.getUserProfile().then((playerProfile) => {
+                this.profile = playerProfile;
                 if (this.game) {
                     resolve(this.game);
                 } else {
@@ -143,6 +146,26 @@ export class GameService {
             }
             return game;
         });
+    }
+
+    public hitShips(cord : ICord) : any[] {
+        let hits : any[] = [];
+
+        this.game.players.forEach((player, playerIndex) => {
+            hits = hits.concat(
+                player.hitShips(cord)
+                    .filter((ship) => {
+                        return ship.playerId != this.profile.getId()
+                    })
+                    .map((ship) => {
+                        // just so we know which color to mark the hit
+                        ship.playerIndex = playerIndex;
+                        return ship;
+                    })
+            );
+        });
+
+        return hits;
     }
 
 // {

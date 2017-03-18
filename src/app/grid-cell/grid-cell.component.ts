@@ -1,5 +1,15 @@
 import {Component, OnInit, HostListener, Output, EventEmitter, Input} from '@angular/core';
 import {Game} from "../objects/Game";
+import {Ship} from "../objects/Ship";
+
+const colors : string[] = [
+    'blue',
+    'orange',
+    'red',
+    'green',
+    'purple',
+    'darkblue'
+];
 
 @Component({
   selector: 'grid-cell',
@@ -9,6 +19,7 @@ import {Game} from "../objects/Game";
 export class GridCellComponent implements OnInit {
 
     public isSelected : boolean = false;
+    public hits : string[] = [];
 
     @Input()
     public x : number;
@@ -34,7 +45,9 @@ export class GridCellComponent implements OnInit {
         }
     }
 
-    public setShot() : void {
-
+    public hitCell(ships : Ship[]) : void {
+        this.hits = ships.map((ship) => {
+            return colors[ship['playerIndex']];
+        });
     }
 }

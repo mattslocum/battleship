@@ -14,11 +14,12 @@ export class Ship {
     public size : number;
     public angle : number = 0;
     public position : ICord;
-    public hits : number[];
+    public hits : boolean[];
     public hasNewRotation : boolean = false;
     public status : string = "";
 
     constructor(
+        public readonly playerId : string,
         public readonly type : string
     ) {
         this.initShip();
@@ -109,5 +110,14 @@ export class Ship {
         }
 
         return cords;
+    }
+
+    public hitShip(hitCord : ICord) : boolean {
+        return this.getCells().some((cord, index) => {
+            if (cord.x == hitCord.x && cord.y == hitCord.y) {
+                this.hits[index] = true;
+                return true;
+            }
+        })
     }
 }
