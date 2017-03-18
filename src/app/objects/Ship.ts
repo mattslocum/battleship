@@ -120,4 +120,12 @@ export class Ship {
             }
         })
     }
+
+    public isActive() : boolean {
+        let hits : number = 0;
+        this.hits.forEach((hit) => {
+            hits += +hit;
+        });
+        return hits < this.size;
+    }
 }

@@ -24,7 +24,7 @@ export class ShotService {
 
     public getShots(gameID : string) : Observable<IShot[]> {
         return new Observable((observer) => {
-            this.fbShots = this.firebase.database.list(`${SHOT_ENDPOINT}/${gameID}`);
+            this.initShots(gameID);
             this.fbShots.subscribe((shotData) => {
                 observer.next(shotData);
                 // observer.next(shotData.filter((shot) => {
@@ -36,27 +36,24 @@ export class ShotService {
         });
     }
 
-    // TODO: Do we always have a fbShots list by now?
-    public fire(position : ICord) : void {
-        if (this.profile) {
-            this.fbShots.push({
-                x: position.x,
-                y: position.y,
-                playerID: this.profile.getId()
-            });
-        } else {
-            this.playerService.getUserProfile().then((playerProfile) => {
-                this.profile = playerProfile;
-                this.fbShots.push({
-                    x: position.x,
-                    y: position.y,
-                    playerID: this.profile.getId()
-                });
-            });
+    private initShots(gameID : string) {
+        if (!this.fbShots) {
+            this.fbShots = this.firebase.database.list(`${SHOT_ENDPOINT}/${gameID}`);
         }
     }
 
-    // public isMyTurn() : Observable<boolean> {
-    //
-    // }
+    // TODO: Do we always have a fbShots list by now?
+    public fire(shots : IShot[]) : void {
+        shots.forEach((shot) => this.fbShots.push(shot));
+    }
+
+    public playerTurn(gameID : string) : Observable<string> {
+        this.initShots(gameID);
+        return this.fbShots
+            // using a delay because we need the ships to get the hits registered first
+            .delay(10)
+            .map((shot) => {
+                return shot.length == 0 ? "" : shot[shot.length - 1].playerID;
+            });
+    }
 }

@@ -20,6 +20,8 @@ export class GridCellComponent implements OnInit {
 
     public isSelected : boolean = false;
     public hits : string[] = [];
+    public shotPending : boolean = false;
+    public miss : boolean = false;
 
     @Input()
     public x : number;
@@ -46,8 +48,15 @@ export class GridCellComponent implements OnInit {
     }
 
     public hitCell(ships : Ship[]) : void {
+        this.shotPending = false;
+        this.miss = !ships.length;
+
         this.hits = ships.map((ship) => {
             return colors[ship['playerIndex']];
         });
+    }
+
+    public shoot() : void {
+        this.shotPending = true;
     }
 }

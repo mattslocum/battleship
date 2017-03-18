@@ -17,18 +17,14 @@
             disabled="disabled">Waiting for other players</button>
 
     <button class="btn btn-danger"
-            [disabled]="!selectedCell"
+            [disabled]="!selectedCell || !shotsRemaining"
             *ngIf="playing"
             (click)="fire()">Fire</button>
 
-    <button class="btn btn-default pull-right"
-            *ngIf="playing"
-            disabled="disabled">Waiting for </button>
+    <span class="pull-right top-info" *ngIf="playerWinner">{{playerWinner}} WINS!!!</span>
+    <span class="pull-right top-info" *ngIf="playing && waitingPlayer">Waiting for {{waitingPlayer.name}}</span>
+    <span class="pull-right top-info" *ngIf="playing && !waitingPlayer">Shots Remaining: {{shotsRemaining}}</span>
 
-    <!--    <span ng-show="strWinner">{{strWinner}} WINS!!!</span>-->
-<!--    <span ng-show="strPlayer != strCurPlayer && !strWinner">Waiting for {{strCurPlayer}}</span>-->
-<!--    <span ng-show="strPlayer == strCurPlayer && !strWinner">Shots Remaining: {{iShotsAvailable}}</span>-->
-    {{ strShowPlayer }}
     <hr/>
     <div>
         <div class="panel player" *ngFor="let player of game.players">

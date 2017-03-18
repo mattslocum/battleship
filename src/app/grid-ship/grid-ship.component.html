@@ -1,3 +1,3 @@
-<div class="ship" [ngClass]="shipClasses">
+<div class="ship" [ngClass]="shipClasses" [class.setup]="doingSetup">
     <div class="hit-loc" *ngFor="let hit of ship.hits" [class.hit]="hit"></div>
 </div>

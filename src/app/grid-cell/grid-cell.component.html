@@ -1,3 +1,5 @@
 <div class="cell" [class.target]="isSelected" (click)="select()">
     <span class="hit-ship" *ngFor="let color of hits" [ngClass]="color"></span>
+    <span class="shot" *ngIf="shotPending"></span>
+    <span class="miss" *ngIf="miss"></span>
 </div>

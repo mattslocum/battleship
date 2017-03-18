@@ -10,6 +10,7 @@ import {Player} from "../objects/Player";
 import {GridCellComponent} from "../grid-cell/grid-cell.component";
 import {ShotService} from "../service/shot.service";
 import {IShot} from "../objects/interfaces";
+import {GameGridComponent} from "../game-grid/game-grid.component";
 
 @Component({
     selector: 'app-game-controls',
@@ -30,7 +31,11 @@ export class GameControlsComponent implements OnInit {
     public waiting : boolean = false;
     public validPositions : boolean = true;
     public player : Player;
+    public shotsRemaining : number = 0;
     private listeningForShots : boolean = false;
+    public waitingPlayer : Player;
+    private shots : IShot[] = [];
+    public playerWinner : string;
 
     constructor(
         private route : ActivatedRoute,
@@ -93,22 +98,60 @@ export class GameControlsComponent implements OnInit {
             });
         } else if (game.status == GameStatus.PLAYING) {
             if (!this.listeningForShots) {
-                this.shotService.getShots(this.game.gameID).subscribe(this.handleShotUpdate.bind(this));
+                this.shotService.playerTurn(this.game.gameID).subscribe(this.handlePlayerUpdate.bind(this));
                 this.listeningForShots = true;
             }
         }
     }
 
-    private handleShotUpdate(shots : IShot[]) {
-        // this.waiting = game.players.some((player) => {
-        //     return !player.locked;
-        // });
+    private handlePlayerUpdate(playerID : string) : void {
+        if (!playerID) {
+            // game is starting. Player 1 goes first.
+            playerID = this.game.players[0].id;
+        }
+
+        let playerIndex : number;
+        this.game.players.some((player, index) => {
+            if (player.id == playerID) {
+                playerIndex = index;
+                return true;
+            }
+        });
+
+        this.waitingPlayer = undefined;
+
+        for (let i = 1; i < this.game.players.length; i++) {
+            let newPlayerIndex = (i + playerIndex) % this.game.players.length;
+
+            if (this.game.players[newPlayerIndex].shipsRemaining() > 0) {
+                if (this.game.players[newPlayerIndex] == this.player) {
+                    this.shotsRemaining = this.player.shipsRemaining();
+                } else {
+                    this.waitingPlayer = this.game.players[newPlayerIndex];
+                }
+                break;
+            }
+        }
+
+        if (!this.waitingPlayer && !this.shotsRemaining) {
+            // then last player to shoot wins
+            this.playerWinner = this.game.players[playerIndex].name;
+            this.playing = false;
+        }
     }
 
     public fire() : void {
-        this.shotService.fire({
+        this.shots.push({
             x: this.selectedCell.x,
-            y: this.selectedCell.y
-        })
+            y: this.selectedCell.y,
+            playerID : this.playerId
+        });
+        this.shotsRemaining--;
+        this.selectedCell.shoot();
+
+        if (this.shotsRemaining == 0) {
+            this.shotService.fire(this.shots);
+            this.shots = [];
+        }
     }
 }

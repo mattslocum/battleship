@@ -73,6 +73,16 @@ export class Player {
         return hits;
     }
 
+    public shipsRemaining() : number {
+        let sum : number = 0;
+
+        this.ships.forEach((ship) => {
+            sum += +ship.isActive();
+        });
+
+        return sum;
+    }
+
    /*  {
    "players": [{
         "name": "asdf",

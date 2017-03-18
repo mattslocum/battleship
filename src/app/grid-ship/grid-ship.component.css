@@ -25,29 +25,32 @@
 }
 
 .Carrier {
-    width: 206px;
+    width: 207px;
 }
 .Battleship {
-    width: 165px;
+    width: 166px;
 }
 .Cruiser {
-    width: 123px;
+    width: 125px;
 }
 .Destroyer {
-    width: 123px;
+    width: 125px;
 }
 .Submarine {
-    width: 82px;
+    width: 84px;
 }
 
 .hit-loc {
     display: inline-block;
     height: 40px;
-    width: 40px;
+    width: 41px;
 }
 .hit {
     background-color: #444;
     border-radius: 20px;
+}
+.setup .hit-loc {
+    display: none;
 }
 
 

@@ -42,3 +42,17 @@
 .hit-ship.darkblue {
     background-color: #000099;
 }
+
+.miss, .shot {
+    background-color: #999;
+    border-radius: 6px;
+    left: 50%;
+    height: 12px;
+    margin: -6px 0 0 -6px;
+    position: absolute;
+    top: 50%;
+    width: 12px;
+}
+.shot {
+    background-color: #000;
+}
