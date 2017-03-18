@@ -6,6 +6,7 @@ import {Player} from "../objects/Player";
 import {Observable} from "rxjs";
 import {PlayerService} from "./player.service";
 import {ICord} from "../objects/interfaces";
+import {MAX_PLAYERS} from "../objects/consts";
 
 // <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
 //     <script>
@@ -140,7 +141,7 @@ export class GameService {
 
     public joinGame(gameID : string, profile : BasicProfile) : Promise<Game> {
         return this.fetchGame(gameID).then((game) => {
-            if (!game.getPlayer(profile.getId())) {
+            if (!game.getPlayer(profile.getId()) && game.status == GameStatus.SETUP && game.players.length < MAX_PLAYERS) {
                 game.createPlayer(profile);
                 this.firebase.database.object(`games/${this.game.gameID}/players/${game.players.length - 1}`).set(game.getPlayer(profile.getId()));
             }

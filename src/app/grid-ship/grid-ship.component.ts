@@ -71,6 +71,9 @@ export class GridShipComponent implements OnInit {
         this.listeners.push(this.renderer.listenGlobal('document', 'mousedown', this.mouseDownHandler.bind(this)));
         this.listeners.push(this.renderer.listenGlobal('body', 'mousemove', this.mouseMoveHandler.bind(this)));
         this.listeners.push(this.renderer.listenGlobal('document', 'mouseup', this.mouseUpHandler.bind(this)));
+        this.listeners.push(this.renderer.listenGlobal('document', 'touchstart', this.mouseDownHandler.bind(this)));
+        this.listeners.push(this.renderer.listenGlobal('body', 'touchmove', this.mouseMoveHandler.bind(this)));
+        this.listeners.push(this.renderer.listenGlobal('document', 'touchend', this.mouseUpHandler.bind(this)));
     }
 
     private removeEventBindings() {

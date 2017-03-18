@@ -1,10 +1,25 @@
 webpackJsonp([1,4],{
 
-/***/ 229:
+/***/ 157:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ROUTE_PART_SETUP; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return ROUTE_PART_PLAY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MAX_PLAYERS; });
+var ROUTE_PART_SETUP = "setup";
+var ROUTE_PART_PLAY = "play";
+var MAX_PLAYERS = 6;
+//# sourceMappingURL=consts.js.map
+
+/***/ }),
+
+/***/ 230:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(54);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GridCellComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -16,6 +31,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var colors = [
     'blue',
     'orange',
@@ -25,7 +41,8 @@ var colors = [
     'darkblue'
 ];
 var GridCellComponent = (function () {
-    function GridCellComponent() {
+    function GridCellComponent(route) {
+        this.route = route;
         this.isSelected = false;
         this.hits = [];
         this.shotPending = false;
@@ -35,8 +52,11 @@ var GridCellComponent = (function () {
     GridCellComponent.prototype.ngOnInit = function () {
     };
     GridCellComponent.prototype.select = function () {
-        this.isSelected = true;
-        this.selected.emit(this);
+        // TODO: 3 isn't a good way to check for playing
+        if (this.route.snapshot.url.length != 3) {
+            this.isSelected = true;
+            this.selected.emit(this);
+        }
     };
     GridCellComponent.prototype.setSelection = function (event) {
         if (event != this) {
@@ -71,16 +91,16 @@ var GridCellComponent = (function () {
             template: __webpack_require__(604),
             styles: [__webpack_require__(591)]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [(typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === 'function' && _b) || Object])
     ], GridCellComponent);
     return GridCellComponent;
-    var _a;
+    var _a, _b;
 }());
 //# sourceMappingURL=grid-cell.component.js.map
 
 /***/ }),
 
-/***/ 230:
+/***/ 231:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -127,7 +147,7 @@ var Game = (function () {
 
 /***/ }),
 
-/***/ 231:
+/***/ 232:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -256,18 +276,6 @@ var Ship = (function () {
 
 /***/ }),
 
-/***/ 232:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ROUTE_PART_SETUP; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ROUTE_PART_PLAY; });
-var ROUTE_PART_SETUP = "setup";
-var ROUTE_PART_PLAY = "play";
-//# sourceMappingURL=consts.js.map
-
-/***/ }),
-
 /***/ 233:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -349,10 +357,10 @@ var ShotService = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__objects_Game__ = __webpack_require__(230);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__objects_Game__ = __webpack_require__(231);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__service_game_service__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__objects_consts__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__objects_consts__ = __webpack_require__(157);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -396,10 +404,10 @@ var GameComponent = (function () {
     };
     GameComponent.prototype.validateRoute = function () {
         var parts = this.route.snapshot.url;
-        if (parts[parts.length - 1].path == __WEBPACK_IMPORTED_MODULE_4__objects_consts__["a" /* ROUTE_PART_SETUP */] && this.game.status != __WEBPACK_IMPORTED_MODULE_1__objects_Game__["b" /* GameStatus */].SETUP) {
+        if (parts[parts.length - 1].path == __WEBPACK_IMPORTED_MODULE_4__objects_consts__["b" /* ROUTE_PART_SETUP */] && this.game.status != __WEBPACK_IMPORTED_MODULE_1__objects_Game__["b" /* GameStatus */].SETUP) {
             this.router.navigate(['../'], { relativeTo: this.route });
         }
-        else if (parts[parts.length - 1].path != __WEBPACK_IMPORTED_MODULE_4__objects_consts__["a" /* ROUTE_PART_SETUP */] && this.game.status == __WEBPACK_IMPORTED_MODULE_1__objects_Game__["b" /* GameStatus */].SETUP) {
+        else if (parts[parts.length - 1].path != __WEBPACK_IMPORTED_MODULE_4__objects_consts__["b" /* ROUTE_PART_SETUP */] && this.game.status == __WEBPACK_IMPORTED_MODULE_1__objects_Game__["b" /* GameStatus */].SETUP) {
             this.router.navigate(['./setup'], { relativeTo: this.route });
         }
     };
@@ -431,9 +439,9 @@ var GameComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__objects_Ship__ = __webpack_require__(231);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__objects_consts__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__objects_Ship__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__objects_consts__ = __webpack_require__(157);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GridShipComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -478,7 +486,7 @@ var GridShipComponent = (function () {
         var _this = this;
         this.route.url
             .subscribe(function (parts) {
-            _this.doingSetup = parts[parts.length - 1].path == __WEBPACK_IMPORTED_MODULE_3__objects_consts__["a" /* ROUTE_PART_SETUP */];
+            _this.doingSetup = parts[parts.length - 1].path == __WEBPACK_IMPORTED_MODULE_3__objects_consts__["b" /* ROUTE_PART_SETUP */];
             if (_this.doingSetup) {
                 _this.setEventBindings();
             }
@@ -499,6 +507,9 @@ var GridShipComponent = (function () {
         this.listeners.push(this.renderer.listenGlobal('document', 'mousedown', this.mouseDownHandler.bind(this)));
         this.listeners.push(this.renderer.listenGlobal('body', 'mousemove', this.mouseMoveHandler.bind(this)));
         this.listeners.push(this.renderer.listenGlobal('document', 'mouseup', this.mouseUpHandler.bind(this)));
+        this.listeners.push(this.renderer.listenGlobal('document', 'touchstart', this.mouseDownHandler.bind(this)));
+        this.listeners.push(this.renderer.listenGlobal('body', 'touchmove', this.mouseMoveHandler.bind(this)));
+        this.listeners.push(this.renderer.listenGlobal('document', 'touchend', this.mouseUpHandler.bind(this)));
     };
     GridShipComponent.prototype.removeEventBindings = function () {
         this.listeners.forEach(function (listener) { return listener(); });
@@ -563,7 +574,7 @@ var GridShipComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Ship__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Ship__ = __webpack_require__(232);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Player; });
 
 var Player = (function () {
@@ -642,7 +653,7 @@ var Player = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__game_service__ = __webpack_require__(67);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameResover; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -692,7 +703,7 @@ var GameResover = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__player_service__ = __webpack_require__(68);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PlayerResover; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -741,7 +752,7 @@ var PlayerResover = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__service_player_service__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_take__ = __webpack_require__(371);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_take__);
@@ -880,7 +891,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dyna
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__start_start_component__ = __webpack_require__(353);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__game_game_component__ = __webpack_require__(348);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__service_player_resolver__ = __webpack_require__(352);
@@ -1016,7 +1027,7 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__service_player_resolver__ = __webpack_require__(352);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_angularfire2__ = __webpack_require__(235);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__service_game_resolver__ = __webpack_require__(351);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__grid_cell_grid_cell_component__ = __webpack_require__(229);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__grid_cell_grid_cell_component__ = __webpack_require__(230);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__service_shot_service__ = __webpack_require__(233);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1100,13 +1111,13 @@ var AppModule = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__objects_Ship__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__objects_Ship__ = __webpack_require__(232);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__service_game_service__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__objects_Game__ = __webpack_require__(230);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__objects_consts__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__objects_Game__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__objects_consts__ = __webpack_require__(157);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__service_player_service__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__grid_cell_grid_cell_component__ = __webpack_require__(229);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__grid_cell_grid_cell_component__ = __webpack_require__(230);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__service_shot_service__ = __webpack_require__(233);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameControlsComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1153,8 +1164,8 @@ var GameControlsComponent = (function () {
         });
         this.route.url
             .subscribe(function (parts) {
-            _this.doingSetup = parts[parts.length - 1].path == __WEBPACK_IMPORTED_MODULE_5__objects_consts__["a" /* ROUTE_PART_SETUP */];
-            _this.playing = !_this.doingSetup && parts[0].path == __WEBPACK_IMPORTED_MODULE_5__objects_consts__["b" /* ROUTE_PART_PLAY */];
+            _this.doingSetup = parts[parts.length - 1].path == __WEBPACK_IMPORTED_MODULE_5__objects_consts__["b" /* ROUTE_PART_SETUP */];
+            _this.playing = !_this.doingSetup && parts[0].path == __WEBPACK_IMPORTED_MODULE_5__objects_consts__["c" /* ROUTE_PART_PLAY */];
         });
     };
     GameControlsComponent.prototype.ngDoCheck = function () {
@@ -1271,7 +1282,7 @@ var GameControlsComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__objects_Player__ = __webpack_require__(350);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__grid_ship_grid_ship_component__ = __webpack_require__(349);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__grid_cell_grid_cell_component__ = __webpack_require__(229);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__grid_cell_grid_cell_component__ = __webpack_require__(230);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__service_game_service__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__service_shot_service__ = __webpack_require__(233);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameGridComponent; });
@@ -1425,7 +1436,7 @@ exports = module.exports = __webpack_require__(37)();
 
 
 // module
-exports.push([module.i, "/* TODO: Use better CSS */\n:host {\n    border: 1px solid #ccc;\n    height: 500px;\n    margin-bottom: 40px;\n    position: absolute;\n    width: 500px;\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n}\n\n.cell_row {\n    clear: left;\n    height: 8.333333333333332%;\n}\n", ""]);
+exports.push([module.i, "/* TODO: Use better CSS */\n:host {\n    border: 1px solid #ccc;\n    margin-bottom: 40px;\n    position: relative;\n    display: inline-block;\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n}\n\n.cell_row {\n}\n", ""]);
 
 // exports
 
@@ -1461,7 +1472,7 @@ exports = module.exports = __webpack_require__(37)();
 
 
 // module
-exports.push([module.i, ".cell {\n    border: 1px solid rgba(190,190,190,0.5);\n    display: inline-block;\n    float: left;\n    height: 100%;\n    position: relative;\n    width: 8.333333333333332%;\n    z-index: 20;\n}\n\n.cell:hover {\n    border-color: #999;\n}\n.cell.target {\n    border: 5px solid #d2322d;\n}\n\n.hit-ship {\n    background-color: #999;\n    border-radius: 6px;\n    display: block;\n    float: left;\n    height: 10px;\n    margin: 2px 1px;\n    width: 10px;\n}\n.hit-ship.blue {\n    background-color: #428BCA;\n}\n.hit-ship.orange {\n    background-color: #EB9800;\n}\n.hit-ship.red {\n    background-color: #bd051a;\n}\n.hit-ship.green {\n    background-color: #5cb85c;\n}\n.hit-ship.purple {\n    background-color: #8A00B8;\n}\n.hit-ship.darkblue {\n    background-color: #000099;\n}\n\n.miss, .shot {\n    background-color: #999;\n    border-radius: 6px;\n    left: 50%;\n    height: 12px;\n    margin: -6px 0 0 -6px;\n    position: absolute;\n    top: 50%;\n    width: 12px;\n}\n.shot {\n    background-color: #000;\n}\n", ""]);
+exports.push([module.i, ".cell {\n    border: 1px solid rgba(190,190,190,0.5);\n    display: inline-block;\n    float: left;\n    height: 40px;\n    position: relative;\n    width: 40px;\n    z-index: 20;\n}\n\n.cell:hover {\n    border-color: #999;\n}\n.cell.target {\n    border: 5px solid #d2322d;\n}\n\n.hit-ship {\n    background-color: #999;\n    border-radius: 6px;\n    display: block;\n    float: left;\n    height: 10px;\n    margin: 2px 1px;\n    width: 10px;\n}\n.hit-ship.blue {\n    background-color: #428BCA;\n}\n.hit-ship.orange {\n    background-color: #EB9800;\n}\n.hit-ship.red {\n    background-color: #bd051a;\n}\n.hit-ship.green {\n    background-color: #5cb85c;\n}\n.hit-ship.purple {\n    background-color: #8A00B8;\n}\n.hit-ship.darkblue {\n    background-color: #000099;\n}\n\n.miss, .shot {\n    background-color: #999;\n    border-radius: 6px;\n    left: 50%;\n    height: 12px;\n    margin: -6px 0 0 -6px;\n    position: absolute;\n    top: 50%;\n    width: 12px;\n}\n.shot {\n    background-color: #000;\n}\n", ""]);
 
 // exports
 
@@ -1479,7 +1490,7 @@ exports = module.exports = __webpack_require__(37)();
 
 
 // module
-exports.push([module.i, ".ship {\n    background-color: #008000;\n    border: 1px solid #444;\n    border-radius: 20px;\n    left: 0px;\n    height: 8.333333333333332%;\n    position: absolute;\n    top: 0px;\n    -webkit-transform-origin: 21px 21px;\n    transform-origin: 21px 21px;\n}\n.ship:after {\n    display: table;\n    content: \" \";\n}\n:host-context(.position) .ship.selected {\n    border-width: 3px;\n    z-index: 31;\n}\n:host-context(.position) .ship {\n    z-index: 30;\n    cursor: move;\n}\n\n.Carrier {\n    width: 207px;\n}\n.Battleship {\n    width: 166px;\n}\n.Cruiser {\n    width: 125px;\n}\n.Destroyer {\n    width: 125px;\n}\n.Submarine {\n    width: 84px;\n}\n\n.hit-loc {\n    display: inline-block;\n    height: 40px;\n    width: 41px;\n}\n.hit {\n    background-color: #444;\n    border-radius: 20px;\n}\n.setup .hit-loc {\n    display: none;\n}\n\n\n\n.x-0  { left: 0px }\n.x-1  { left: 41px }\n.x-2  { left: 83px }\n.x-3  { left: 124px }\n.x-4  { left: 166px }\n.x-5  { left: 207px }\n.x-6  { left: 249px }\n.x-7  { left: 290px }\n.x-8  { left: 332px }\n.x-9  { left: 373px }\n.x-10 { left: 415px }\n.x-11 { left: 456px }\n\n.y-0  { top: 0px }\n.y-1  { top: 41px }\n.y-2  { top: 83px }\n.y-3  { top: 124px }\n.y-4  { top: 166px }\n.y-5  { top: 207px }\n.y-6  { top: 249px }\n.y-7  { top: 290px }\n.y-8  { top: 332px }\n.y-9  { top: 373px }\n.y-10 { top: 415px }\n.y-11 { top: 456px }\n\n.dir-45 {\n    -webkit-transform:  translate(4px, 4px) rotate(45deg) scale(1.33,1);\n    transform:          translate(4px, 4px) rotate(45deg) scale(1.33,1);\n}\n.dir-90 {\n    -webkit-transform:  rotate(90deg);\n    transform:          rotate(90deg);\n}\n.dir-135 {\n    -webkit-transform:  translate(-4px, 4px) rotate(135deg) scale(1.33,1);\n    transform:          translate(-4px, 4px) rotate(135deg) scale(1.33,1);\n}\n", ""]);
+exports.push([module.i, ".ship {\n    background-color: #008000;\n    border: 1px solid #444;\n    border-radius: 20px;\n    left: 0px;\n    height: 40px;\n    position: absolute;\n    top: 0px;\n    -webkit-transform-origin: 21px 21px;\n    transform-origin: 21px 21px;\n}\n.ship:after {\n    display: table;\n    content: \" \";\n}\n:host-context(.position) .ship.selected {\n    border-width: 3px;\n    z-index: 31;\n}\n:host-context(.position) .ship {\n    z-index: 30;\n    cursor: move;\n}\n\n.Carrier {\n    width: calc(5 * 40px);\n}\n.Battleship {\n    width: calc(4 * 40px);\n}\n.Cruiser {\n    width: calc(3 * 40px);\n}\n.Destroyer {\n    width: calc(3 * 40px);\n}\n.Submarine {\n    width: calc(2 * 40px);\n}\n\n.hit-loc {\n    display: inline-block;\n    height: 40px;\n    width: 41px;\n}\n.hit {\n    background-color: #444;\n    border-radius: 20px;\n}\n.setup .hit-loc {\n    display: none;\n}\n\n\n\n.x-0  { left: 0 }\n.x-1  { left: calc(1 * 40px) }\n.x-2  { left: calc(2 * 40px) }\n.x-3  { left: calc(3 * 40px) }\n.x-4  { left: calc(4 * 40px) }\n.x-5  { left: calc(5 * 40px) }\n.x-6  { left: calc(6 * 40px) }\n.x-7  { left: calc(7 * 40px) }\n.x-8  { left: calc(8 * 40px) }\n.x-9  { left: calc(9 * 40px) }\n.x-10 { left: calc(10 * 40px) }\n.x-11 { left: calc(11 * 40px) }\n\n.y-0  { top: 0 }\n.y-1  { top: calc(1 * 40px) }\n.y-2  { top: calc(2 * 40px) }\n.y-3  { top: calc(3 * 40px) }\n.y-4  { top: calc(4 * 40px) }\n.y-5  { top: calc(5 * 40px) }\n.y-6  { top: calc(6 * 40px) }\n.y-7  { top: calc(7 * 40px) }\n.y-8  { top: calc(8 * 40px) }\n.y-9  { top: calc(9 * 40px) }\n.y-10 { top: calc(10 * 40px) }\n.y-11 { top: calc(11 * 40px) }\n\n.dir-45 {\n    -webkit-transform:  translate(4px, 5px) rotate(45deg) scale(1.33,1);\n    transform:          translate(4px, 5px) rotate(45deg) scale(1.33,1);\n}\n.dir-90 {\n    -webkit-transform:  translate(-2px, 0px) rotate(90deg);\n    transform:          translate(-2px, 0px) rotate(90deg);\n}\n.dir-135 {\n    -webkit-transform:  translate(-7px, 4px) rotate(135deg) scale(1.33,1);\n    transform:          translate(-7px, 4px) rotate(135deg) scale(1.33,1);\n}\n.Battleship.dir-45, .Battleship.dir-135 {\n    width: calc(4 * 40px - 1px);\n}\n.Cruiser.dir-45, .Cruiser.dir-135 {\n    width: calc(3 * 40px - 4px);\n}\n.Destroyer.dir-45, .Destroyer.dir-135 {\n    width: calc(3 * 40px - 4px);\n}\n.Submarine.dir-45, .Submarine.dir-135 {\n    width: calc(2 * 40px - 6px);\n}\n", ""]);
 
 // exports
 
@@ -1524,14 +1535,14 @@ module.exports = "<div class=\"well sidebar-nav\">\n    <button class=\"btn btn-
 /***/ 602:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngFor=\"let ship of player.ships\">\n    <grid-ship [ship]=\"ship\"></grid-ship>\n</div>\n\n<div *ngFor=\"let yPos of gridArray(); let y = index;\" class=\"cell_row\">\n    <grid-cell *ngFor=\"let xPos of gridArray(); let x = index;\" (selected)=\"cellSelected($event)\" [x]=\"x\" [y]=\"y\"></grid-cell>\n</div>\n\n<!--<div ng-repeat=\"y in range(gridSize) track by $index\">-->\n<!--    <div ms-grid-hit ng-repeat=\"x in range(gridSize) track by $index\"></div>-->\n<!--</div>-->\n"
+module.exports = "<div *ngFor=\"let ship of player.ships\">\n    <grid-ship [ship]=\"ship\"></grid-ship>\n</div>\n\n<div *ngFor=\"let yPos of gridArray(); let y = index;\" class=\"cell_row\">\n    <grid-cell *ngFor=\"let xPos of gridArray(); let x = index;\" (selected)=\"cellSelected($event)\" [x]=\"x\" [y]=\"y\"></grid-cell>\n</div>\n"
 
 /***/ }),
 
 /***/ 603:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\" [class.position]=\"positioning && !player.locked\">\n    <div class=\"col-md-8\">\n        <app-game-grid #grid [player]=\"player\"></app-game-grid>\n    </div>\n    <div class=\"col-md-4 sidebar-offcanvas\">\n        <app-game-controls [selectedShip]=\"grid.selectedShip\" [selectedCell]=\"grid.selectedCell\"></app-game-controls>\n    </div>\n</div>\n"
+module.exports = "<div class=\"row\" [class.position]=\"positioning && !player.locked\">\n    <div class=\"col-md-8\">\n        <div style=\"font-size:0;\">\n            <app-game-grid #grid [player]=\"player\"></app-game-grid>\n        </div>\n        <ul>\n            <li>You can shoot yourself, so shoot carefully.</li>\n            <li>You get 1 shot per alive ship.</li>\n        </ul>\n    </div>\n    <div class=\"col-md-4 sidebar-offcanvas\">\n        <app-game-controls [selectedShip]=\"grid.selectedShip\" [selectedCell]=\"grid.selectedCell\"></app-game-controls>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -1561,11 +1572,12 @@ module.exports = "<div class=\"row\">\n    <form class=\"form-horizontal\" role=
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__objects_Game__ = __webpack_require__(230);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__objects_Game__ = __webpack_require__(231);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2__ = __webpack_require__(235);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs__ = __webpack_require__(369);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__player_service__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__objects_consts__ = __webpack_require__(157);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1576,6 +1588,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1707,7 +1720,7 @@ var GameService = (function () {
     GameService.prototype.joinGame = function (gameID, profile) {
         var _this = this;
         return this.fetchGame(gameID).then(function (game) {
-            if (!game.getPlayer(profile.getId())) {
+            if (!game.getPlayer(profile.getId()) && game.status == __WEBPACK_IMPORTED_MODULE_1__objects_Game__["b" /* GameStatus */].SETUP && game.players.length < __WEBPACK_IMPORTED_MODULE_5__objects_consts__["a" /* MAX_PLAYERS */]) {
                 game.createPlayer(profile);
                 _this.firebase.database.object("games/" + _this.game.gameID + "/players/" + (game.players.length - 1)).set(game.getPlayer(profile.getId()));
             }

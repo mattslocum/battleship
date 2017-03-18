@@ -5,7 +5,3 @@
 <div *ngFor="let yPos of gridArray(); let y = index;" class="cell_row">
     <grid-cell *ngFor="let xPos of gridArray(); let x = index;" (selected)="cellSelected($event)" [x]="x" [y]="y"></grid-cell>
 </div>
-
-<!--<div ng-repeat="y in range(gridSize) track by $index">-->
-<!--    <div ms-grid-hit ng-repeat="x in range(gridSize) track by $index"></div>-->
-<!--</div>-->

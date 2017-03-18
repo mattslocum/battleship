@@ -1,6 +1,8 @@
 import {Component, OnInit, HostListener, Output, EventEmitter, Input} from '@angular/core';
 import {Game} from "../objects/Game";
 import {Ship} from "../objects/Ship";
+import {ActivatedRoute, UrlSegment} from "@angular/router";
+import {ROUTE_PART_SETUP} from "../objects/consts";
 
 const colors : string[] = [
     'blue',
@@ -31,14 +33,19 @@ export class GridCellComponent implements OnInit {
     @Output()
     public selected : EventEmitter<GridCellComponent> = new EventEmitter<GridCellComponent>();
 
-    constructor() { }
+    constructor(
+        private route : ActivatedRoute
+    ) { }
 
     public ngOnInit() {
     }
 
     public select() {
-        this.isSelected = true;
-        this.selected.emit(this);
+        // TODO: 3 isn't a good way to check for playing
+        if (this.route.snapshot.url.length != 3) {
+            this.isSelected = true;
+            this.selected.emit(this);
+        }
     }
 
     public setSelection(event : any) {
