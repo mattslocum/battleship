@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ElementRef, Renderer} from '@angular/core';
+import {Component, OnInit, Input, ElementRef, EventEmitter, Renderer, Output} from '@angular/core';
 import {Ship} from "../objects/Ship";
 import {element} from "protractor";
 import {ICord} from "../objects/interfaces";
@@ -24,6 +24,9 @@ export class GridShipComponent implements OnInit {
     private mouseDownEvent : MouseEvent;
     private startDragPos : ICord;
     public doingSetup : boolean = false;
+
+    @Output()
+    public selected : EventEmitter<GridShipComponent> = new EventEmitter<GridShipComponent>();
 
     constructor(
         private elementRef: ElementRef,
