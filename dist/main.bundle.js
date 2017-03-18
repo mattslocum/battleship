@@ -505,12 +505,16 @@ var GridShipComponent = (function () {
         this.shipClasses['selected'] = this.isSelected;
     };
     GridShipComponent.prototype.setEventBindings = function () {
-        this.listeners.push(this.renderer.listenGlobal('document', 'mousedown', this.mouseDownHandler.bind(this)));
-        this.listeners.push(this.renderer.listenGlobal('body', 'mousemove', this.mouseMoveHandler.bind(this)));
-        this.listeners.push(this.renderer.listenGlobal('document', 'mouseup', this.mouseUpHandler.bind(this)));
-        this.listeners.push(this.renderer.listenGlobal('document', 'touchstart', this.mouseDownHandler.bind(this)));
-        this.listeners.push(this.renderer.listenGlobal('body', 'touchmove', this.mouseMoveHandler.bind(this)));
-        this.listeners.push(this.renderer.listenGlobal('document', 'touchend', this.mouseUpHandler.bind(this)));
+        if (/Mobile/.test(navigator.userAgent)) {
+            this.listeners.push(this.renderer.listenGlobal('document', 'touchstart', this.mouseDownHandler.bind(this)));
+            this.listeners.push(this.renderer.listenGlobal('body', 'touchmove', this.mouseMoveHandler.bind(this)));
+            this.listeners.push(this.renderer.listenGlobal('document', 'touchend', this.mouseUpHandler.bind(this)));
+        }
+        else {
+            this.listeners.push(this.renderer.listenGlobal('document', 'mousedown', this.mouseDownHandler.bind(this)));
+            this.listeners.push(this.renderer.listenGlobal('body', 'mousemove', this.mouseMoveHandler.bind(this)));
+            this.listeners.push(this.renderer.listenGlobal('document', 'mouseup', this.mouseUpHandler.bind(this)));
+        }
     };
     GridShipComponent.prototype.removeEventBindings = function () {
         this.listeners.forEach(function (listener) { return listener(); });
@@ -1268,7 +1272,9 @@ var GameControlsComponent = (function () {
             styles: [__webpack_require__(588)],
             host: {
                 // Doing this because during setup the ships setup events that we need to prevent triggering
-                "(mousedown)": "$event.stopPropagation()"
+                "(mousedown)": "$event.stopPropagation()",
+                "(touchstart)": "$event.stopPropagation()",
+                "(touchmove)": "$event.stopPropagation()"
             }
         }), 
         __metadata('design:paramtypes', [(typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* ActivatedRoute */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* ActivatedRoute */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */]) === 'function' && _d) || Object, (typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6__service_player_service__["a" /* PlayerService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_6__service_player_service__["a" /* PlayerService */]) === 'function' && _e) || Object, (typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2__service_game_service__["a" /* GameService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__service_game_service__["a" /* GameService */]) === 'function' && _f) || Object, (typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_8__service_shot_service__["a" /* ShotService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_8__service_shot_service__["a" /* ShotService */]) === 'function' && _g) || Object])

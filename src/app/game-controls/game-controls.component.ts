@@ -18,7 +18,9 @@ import {GameGridComponent} from "../game-grid/game-grid.component";
     styleUrls: ['./game-controls.component.css'],
     host: {
         // Doing this because during setup the ships setup events that we need to prevent triggering
-        "(mousedown)" : "$event.stopPropagation()"
+        "(mousedown)" : "$event.stopPropagation()",
+        "(touchstart)" : "$event.stopPropagation()",
+        "(touchmove)" : "$event.stopPropagation()"
     }
 })
 export class GameControlsComponent implements OnInit {
