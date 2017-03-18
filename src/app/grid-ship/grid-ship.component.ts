@@ -113,6 +113,8 @@ export class GridShipComponent implements OnInit {
 
                 this.setShipClasses();
             }
+
+            event.preventDefault();
         }
     }
 

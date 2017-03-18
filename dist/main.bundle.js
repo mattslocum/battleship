@@ -541,6 +541,7 @@ var GridShipComponent = (function () {
                 this.fixPosition();
                 this.setShipClasses();
             }
+            event.preventDefault();
         }
     };
     GridShipComponent.prototype.mouseUpHandler = function (event) {
