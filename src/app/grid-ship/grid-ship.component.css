@@ -3,7 +3,7 @@
     border: 1px solid #444;
     border-radius: 20px;
     left: 0px;
-    height: 40px;
+    height: 39px;
     position: absolute;
     top: 0px;
     -webkit-transform-origin: 21px 21px;
@@ -25,25 +25,25 @@
 }
 
 .Carrier {
-    width: calc(5 * 40px);
+    width: calc(5 * 39px);
 }
 .Battleship {
-    width: calc(4 * 40px);
+    width: calc(4 * 39px);
 }
 .Cruiser {
-    width: calc(3 * 40px);
+    width: calc(3 * 39px);
 }
 .Destroyer {
-    width: calc(3 * 40px);
+    width: calc(3 * 39px);
 }
 .Submarine {
-    width: calc(2 * 40px);
+    width: calc(2 * 39px);
 }
 
 .hit-loc {
     display: inline-block;
-    height: 40px;
-    width: 41px;
+    height: 39px;
+    width: 39px;
 }
 .hit {
     background-color: #444;
@@ -56,30 +56,30 @@
 
 
 .x-0  { left: 0 }
-.x-1  { left: calc(1 * 40px) }
-.x-2  { left: calc(2 * 40px) }
-.x-3  { left: calc(3 * 40px) }
-.x-4  { left: calc(4 * 40px) }
-.x-5  { left: calc(5 * 40px) }
-.x-6  { left: calc(6 * 40px) }
-.x-7  { left: calc(7 * 40px) }
-.x-8  { left: calc(8 * 40px) }
-.x-9  { left: calc(9 * 40px) }
-.x-10 { left: calc(10 * 40px) }
-.x-11 { left: calc(11 * 40px) }
+.x-1  { left: calc(1 * 39px) }
+.x-2  { left: calc(2 * 39px) }
+.x-3  { left: calc(3 * 39px) }
+.x-4  { left: calc(4 * 39px) }
+.x-5  { left: calc(5 * 39px) }
+.x-6  { left: calc(6 * 39px) }
+.x-7  { left: calc(7 * 39px) }
+.x-8  { left: calc(8 * 39px) }
+.x-9  { left: calc(9 * 39px) }
+.x-10 { left: calc(10 * 39px) }
+.x-11 { left: calc(11 * 39px) }
 
 .y-0  { top: 0 }
-.y-1  { top: calc(1 * 40px) }
-.y-2  { top: calc(2 * 40px) }
-.y-3  { top: calc(3 * 40px) }
-.y-4  { top: calc(4 * 40px) }
-.y-5  { top: calc(5 * 40px) }
-.y-6  { top: calc(6 * 40px) }
-.y-7  { top: calc(7 * 40px) }
-.y-8  { top: calc(8 * 40px) }
-.y-9  { top: calc(9 * 40px) }
-.y-10 { top: calc(10 * 40px) }
-.y-11 { top: calc(11 * 40px) }
+.y-1  { top: calc(1 * 39px) }
+.y-2  { top: calc(2 * 39px) }
+.y-3  { top: calc(3 * 39px) }
+.y-4  { top: calc(4 * 39px) }
+.y-5  { top: calc(5 * 39px) }
+.y-6  { top: calc(6 * 39px) }
+.y-7  { top: calc(7 * 39px) }
+.y-8  { top: calc(8 * 39px) }
+.y-9  { top: calc(9 * 39px) }
+.y-10 { top: calc(10 * 39px) }
+.y-11 { top: calc(11 * 39px) }
 
 .dir-45 {
     -webkit-transform:  translate(4px, 5px) rotate(45deg) scale(1.33,.8);
@@ -100,14 +100,14 @@
     transform:          translate(-7px, 4px) rotate(135deg) scale(1.33,.8);
 }
 .Battleship.dir-45, .Battleship.dir-135 {
-    width: calc(4 * 40px - 1px);
+    width: calc(4 * 39px - 1px);
 }
 .Cruiser.dir-45, .Cruiser.dir-135 {
-    width: calc(3 * 40px - 4px);
+    width: calc(3 * 39px - 4px);
 }
 .Destroyer.dir-45, .Destroyer.dir-135 {
-    width: calc(3 * 40px - 4px);
+    width: calc(3 * 39px - 4px);
 }
 .Submarine.dir-45, .Submarine.dir-135 {
-    width: calc(2 * 40px - 6px);
+    width: calc(2 * 39px - 6px);
 }
